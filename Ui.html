@@ -12,50 +12,62 @@
 
   <title>P2Pchat</title>
 </head>
-<body>
-  
-    <div class="row align-items-start">
-      <div class="col-10 order-first" id="chatroom">
-        
-      </div>
-      <div class="col-auto order-last">
 
-        <table class="table table-sm">
-          <thead>
-            <tr>
-              <th scope="col"></th>
-              <th scope="col">Medlemmer</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">
-              <td colspan="2">Mark</td>
-              <td ></td>
-              <td>Online</td></th>
-            </tr>
-            <tr>
-              <th scope="row"></th>
-              <td colspan="2">Jacob</td>
-              <td></td>
-              <td>Offline</td>
-            </tr>
-            <tr>
-              <th scope="row"></th>
-              <td colspan="2">Larry the Bird Lover</td>
-              <td></td>
-              <td>Online</td>
-            </tr>
-          </tbody>
-        </table>
+<body>
+  <div class="row g-2">
+    <div class="col-2">
+      <div class="list-group">
+        <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
+          The current button
+        </button>
+        <button type="button" class="list-group-item list-group-item-action">A second item</button>
+        <button type="button" class="list-group-item list-group-item-action">A third button item</button>
+        <button type="button" class="list-group-item list-group-item-action">A fourth button item</button>
+        <button type="button" class="list-group-item list-group-item-action">A second item</button>
+        <button type="button" class="list-group-item list-group-item-action">A second item</button>
+        <button type="button" class="list-group-item list-group-item-action">A second item</button>
+
       </div>
     </div>
-    <div class="row align-items-end">
-      <form class="row">
-        <div class="col-10">
+    <div class="col-10">
+      <div class="row g-2">
+        <div class="col-10 order-first" id="sendt" style="position:absolute;left:0;">
+        </div>
+        <div class="col-2 order-last" style="position:absolute;right:0;">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Medlemmer</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                <td colspan="2">Mark</td>
+                <td>Online</td>
+                </th>
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                <td colspan="2">Jacob</td>
+                <td>Offline</td>
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                <td colspan="2">Larry the Bird Lover</td>
+                <td>Online</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+      <form class="row g-2" style="position: absolute; bottom: 0; right:0;">
+        <div class="col-2"></div>
+        <div class="col-8">
           <input class="form-control" id="exampleDataList" placeholder="Type your msg here...">
         </div>
         <div class="d-grid col-2">
@@ -63,7 +75,12 @@
         </div>
       </form>
     </div>
-  
+  </div>
+  </div>
+
+
+
+
 
   <!-- Optional JavaScript; choose one of the two! -->
 

@@ -11,6 +11,8 @@ function newmsg() {
         document.getElementById("exampleDataList").value = "";
         console.log(log);
         newtxt.innerHTML = neo;
-        document.getElementById("chatroom").appendChild(newtxt);
+        newtxt.style.position = "absolute";
+        newtxt.style.right = 0;
+        document.getElementById("sendt").appendChild(newtxt);
     }
 }
