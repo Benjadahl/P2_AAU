@@ -14,13 +14,7 @@ function printMsg(data, me) {
   console.log('Message: ' + data);
   let newtxt = document.createElement("H6");
   newtxt.innerText = data;
-  /*newtxt.style.position = "absolute"
-  if(me === true){
-    newtxt.style.right = 0;
-  }
-  else{
-    newtxt.style.right = 0;
-  }*/
+ 
   
   document.getElementById("sendt").appendChild(newtxt);
 }
