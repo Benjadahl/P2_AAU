@@ -4,6 +4,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 let chatLog = new Array();
+let peers = [];
 
 io.on('connection', socket => {
   socket.on('msg', data => {
@@ -13,6 +14,15 @@ io.on('connection', socket => {
   });
 
   socket.emit('chatLog', chatLog);
+  
+  socket.on('peerID', ID => {
+    peers.forEach(ID => {
+      socket.emit('newPeer', ID);
+    });
+    
+    peers.push(ID);
+    socket.broadcast.emit('newPeer', ID);
+  });
 });
 
 app.use(express.static('public'));
