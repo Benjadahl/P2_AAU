@@ -13,14 +13,26 @@ function sendMsg(data) {
 function printMsg(data, me) {
   console.log('Message: ' + data);
   let newtxt = document.createElement("H6");
-  //let pos = document.createElement("DIV");
+  let msgRow = document.createElement('div');
+  let msgCol =document.createElement("div");
   newtxt.innerText = data;
-  //newtxt.style.position = "relative"
+  //msgRow.innerText = data;
   if(me === true){
-    document.getElementById("sendt").appendChild(newtxt);
+    msgRow.className = "row" ;
+    //msgCol.className ="col-12";
+    newtxt.className = "text-end";
+    document.getElementById("sendt").appendChild(msgRow);
+    //msgRow.appendChild(msgCol);
+    msgRow.appendChild(newtxt);
   }
   else{
-    document.getElementById("recived").appendChild(newtxt);
+    msgRow.className = "row" ;
+    //msgCol.className ="col-12";
+    //newtxt.className = "position-absolute top-0 start-0";
+    document.getElementById("sendt").appendChild(msgRow);
+    //msgRow.appendChild(msgCol);
+    msgRow.appendChild(newtxt);
+    
   }
   
   
