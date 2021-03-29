@@ -3,7 +3,7 @@ let peers = [];
 
 /* Open event handler run, when client has been
    assigned an ID by peerServer */
-peerJS.on('open', function(){
+peerJS.on('open', () => {
   console.log(peerJS.id);
   socket.emit('peerID', peerJS.id);
 
