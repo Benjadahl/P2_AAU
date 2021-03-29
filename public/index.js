@@ -1,7 +1,20 @@
 const socket = io();
+let chatHight;
+let windowHight;
+window.onresize = chatSize();
+
+
+
+function chatSize(){
+  console.log("window resize")
+  windowHight = window.innerHeight;
+  chatHight = windowHight * 0.9118541;
+  document.getElementById("sendt").style = "max-height: "+ chatHight+"px;"
+  
+}
 
 document.getElementById("sendMsg").addEventListener("click", () => {
-  
+
     sendMsg(document.getElementById("exampleDataList").value);
     document.getElementById("exampleDataList").value = "";
 });
@@ -14,7 +27,6 @@ function printMsg(data, me) {
   console.log('Message: ' + data);
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
-  let msgCol =document.createElement("div");
   newtxt.innerText = data;
   //msgRow.innerText = data;
   if(me === true){
