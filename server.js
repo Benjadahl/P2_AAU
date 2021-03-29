@@ -26,6 +26,7 @@ io.on('connection', socket => {
   });
 });
 
+/* Serve the public folder via Express */
 app.use(express.static('public'));
 
 io.listen(app.listen(3000));
