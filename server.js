@@ -15,6 +15,7 @@ io.on('connection', socket => {
 
   socket.emit('chatLog', chatLog);
   
+  /* Function is called when a new peer connects */
   socket.on('peerID', ID => {
     peers.forEach(ID => {
       socket.emit('newPeer', ID);
