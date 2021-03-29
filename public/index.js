@@ -17,6 +17,7 @@ socket.on('chatLog', chatLog => {
 });
 
 socket.on('newConversation', data => {
+  addConvoToList(data);
   data.chatLog.forEach(msg => printMsg(msg));
 });
 
@@ -35,6 +36,7 @@ function printMsg(data, me) {
 }
 
 function login (username) {
+  clearConvoList();
   socket.emit('userLogin', {username: username, peerID: peerJS.id});
 }
 
