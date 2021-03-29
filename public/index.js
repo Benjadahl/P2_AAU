@@ -1,14 +1,23 @@
 const socket = io();
 let Hight;
 let windowHight;
-const chatRatio = 0.912;
+const chatRatio = 0.90;
 const roomRatio = 0.97;
-window.addEventListener("resize" ,reSize(chatRatio, "sendt"), reSize(chatRatio, "members"), reSize(roomRatio, "chatGroup"));
-window.onresize = console.log("resize time");
+
+reSize(chatRatio, "sendt");
+reSize(chatRatio, "members");
+reSize(roomRatio, "chatGroup");
+
+window.addEventListener("resize", function(){
+  reSize(chatRatio, "sendt");
+  reSize(chatRatio, "members");
+  reSize(roomRatio, "chatGroup");
+})
+
+
 
 function reSize(ratio, id){
-  windowHight = window.innerHeight;
-  Hight = windowHight * ratio;
+  Hight = window.innerHeight * ratio;
   console.log(Hight);
   document.getElementById(id).style = "max-height: "+ Hight+"px;"
   
@@ -19,6 +28,7 @@ document.getElementById("sendMsg").addEventListener("click", () => {
     sendMsg(document.getElementById("exampleDataList").value);
     document.getElementById("exampleDataList").value = "";
 });
+
 function sendMsg(data) {
   socket.emit('msg', data, false);
   printMsg(data, true);
