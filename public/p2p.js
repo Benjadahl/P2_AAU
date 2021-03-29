@@ -5,7 +5,6 @@ let peers = [];
    assigned an ID by peerServer */
 peerJS.on('open', () => {
   console.log(peerJS.id);
-  socket.emit('peerID', peerJS.id);
 
   peerJS.on('connection', conn => {
     conn.on('data', data => {
@@ -13,11 +12,11 @@ peerJS.on('open', () => {
     });
   });
   
-  socket.on('newPeer', ID => {
+  /*socket.on('newPeer', ID => {
     let conn = peerJS.connect(ID);
     console.log(ID);
     peers.push(conn);
-  });
+  });*/
 });
 
 function sendDirectMsg (msg) {
@@ -25,7 +24,3 @@ function sendDirectMsg (msg) {
     peer.send(msg);
   });
 }
-
-
-
-
