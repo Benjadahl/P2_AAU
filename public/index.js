@@ -3,14 +3,13 @@ let Hight;
 let windowHight;
 const chatRatio = 0.912;
 const roomRatio = 0.97;
-window.onresize = reSize(chatRatio, "sendt");
-window.onresize = reSize(chatRatio, "members");
-window.onresize = reSize(roomRatio, "chatGroup");
+window.addEventListener("resize" ,reSize(chatRatio, "sendt"), reSize(chatRatio, "members"), reSize(roomRatio, "chatGroup"));
+window.onresize = console.log("resize time");
 
 function reSize(ratio, id){
-  console.log("window resize")
   windowHight = window.innerHeight;
   Hight = windowHight * ratio;
+  console.log(Hight);
   document.getElementById(id).style = "max-height: "+ Hight+"px;"
   
 }
@@ -34,6 +33,7 @@ function printMsg(data, me) {
   if(me === true){
     newtxt.className = "text-end";
   }
+  
   document.getElementById("sendt").appendChild(msgRow);   
   msgRow.appendChild(newtxt);
 }
