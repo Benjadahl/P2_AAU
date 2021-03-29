@@ -1,15 +1,17 @@
 const socket = io();
-let chatHight;
+let Hight;
 let windowHight;
-window.onresize = chatSize();
+const chatRatio = 0.912;
+const roomRatio = 0.97;
+window.onresize = reSize(chatRatio, "sendt");
+window.onresize = reSize(chatRatio, "members");
+window.onresize = reSize(roomRatio, "chatGroup");
 
-
-
-function chatSize(){
+function reSize(ratio, id){
   console.log("window resize")
   windowHight = window.innerHeight;
-  chatHight = windowHight * 0.9118541;
-  document.getElementById("sendt").style = "max-height: "+ chatHight+"px;"
+  Hight = windowHight * ratio;
+  document.getElementById(id).style = "max-height: "+ Hight+"px;"
   
 }
 
@@ -28,26 +30,12 @@ function printMsg(data, me) {
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
   newtxt.innerText = data;
-  //msgRow.innerText = data;
+  msgRow.className = "row" ;
   if(me === true){
-    msgRow.className = "row" ;
-    //msgCol.className ="col-12";
     newtxt.className = "text-end";
-    document.getElementById("sendt").appendChild(msgRow);
-    //msgRow.appendChild(msgCol);
-    msgRow.appendChild(newtxt);
   }
-  else{
-    msgRow.className = "row" ;
-    //msgCol.className ="col-12";
-    //newtxt.className = "position-absolute top-0 start-0";
-    document.getElementById("sendt").appendChild(msgRow);
-    //msgRow.appendChild(msgCol);
-    msgRow.appendChild(newtxt);
-    
-  }
-  
-  
+  document.getElementById("sendt").appendChild(msgRow);   
+  msgRow.appendChild(newtxt);
 }
 
 socket.on('peer-msg', data => {
