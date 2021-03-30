@@ -1,5 +1,4 @@
 let peerJS = new Peer();
-let peers = [];
 
 /* Open event handler run, when client has been
    assigned an ID by peerServer */
@@ -19,8 +18,15 @@ peerJS.on('open', () => {
   });*/
 });
 
-function sendDirectMsg (msg) {
-  peers.forEach(peer => {
-    peer.send(msg);
-  });
+function sendDirectMsg (msg, convoID) {
+  for (const member in conversations[convoID].members) {
+    const peerID = conversations[convoID].members[member];
+    let conn = peerJS.connect(peerID);
+    conn.on("open", () => {
+      conn.send({ID: convoID, msg: msg, timestamp: Date.now(), username: username});
+      setTimeout(() => {
+        conn.close();
+      }, 1000);
+    });
+  }
 }

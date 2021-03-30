@@ -1,4 +1,6 @@
 const socket = io();
+let conversations = {};
+let username;
 
 window.addEventListener("resize", () => {
   resizeAll();
@@ -36,6 +38,8 @@ socket.on('chatLog', chatLog => {
 
 socket.on('newConversation', data => {
   addConvoToList(data);
+  conversations[data.ID] = data;
+  console.log(data);
   data.chatLog.forEach(msg => printMsg(msg));
 });
 
@@ -58,9 +62,10 @@ function printMsg(data, me) {
   msgRow.appendChild(newtxt);
 }
 
-function login (username) {
+function login (reqUsername) {
   clearConvoList();
-  socket.emit('userLogin', {username: username, peerID: peerJS.id});
+  username = reqUsername;
+  socket.emit('userLogin', {username: reqUsername, peerID: peerJS.id});
 }
 
 function newConversation (members) {
