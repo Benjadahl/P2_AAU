@@ -10,12 +10,6 @@ peerJS.on('open', () => {
       printMsg(data);
     });
   });
-  
-  /*socket.on('newPeer', ID => {
-    let conn = peerJS.connect(ID);
-    console.log(ID);
-    peers.push(conn);
-  });*/
 });
 
 function sendDirectMsg (msg, convoID) {
