@@ -7,7 +7,7 @@ window.addEventListener("resize", () => {
 function resizeAll () {
   const chatRatio = 0.90;
   const roomRatio = 0.97;
-  
+
   reSize(chatRatio, "sendt");
   reSize(chatRatio, "members");
   reSize(roomRatio, "chatGroup");  
@@ -16,12 +16,12 @@ function resizeAll () {
 
 function reSize (ratio, id) {
   let height = window.innerHeight * ratio;
-  document.getElementById(id).style = "max-height: "+ height + "px;"
+  document.getElementById(id).style.setProperty("max-height", height.toString() + "px;"); 
 }
 
 document.getElementById("sendMsg").addEventListener("click", () => {
-    sendMsg(document.getElementById("exampleDataList").value);
-    document.getElementById("exampleDataList").value = "";
+  sendMsg(document.getElementById("exampleDataList").value);
+  document.getElementById("exampleDataList").value = "";
 });
 
 socket.on('peer-msg', data => {
