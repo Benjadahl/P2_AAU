@@ -71,7 +71,7 @@ function login (username) {
   thisUser = username;
   socket.emit('userLogin', {username: username, peerID: peerJS.id});
 }
-
+ 
 function newConversation (members) {
   socket.emit('newConversation', members);
 }
