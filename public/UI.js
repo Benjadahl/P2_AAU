@@ -2,6 +2,7 @@ const conversationList = document.getElementById("conversationList");
 
 function clearConvoList () {
   conversationList.innerHTML = "";
+  document.getElementById("sendt").innerHTML = ""
 }
 
 function addConvoToList (data) {
