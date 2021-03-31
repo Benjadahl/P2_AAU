@@ -1,5 +1,5 @@
 const socket = io();
-
+let buttonID;
 window.addEventListener("resize", () => {
   resizeAll();
 });
@@ -23,6 +23,16 @@ document.getElementById("sendMsg").addEventListener("click", () => {
   sendMsg(document.getElementById("exampleDataList").value);
   document.getElementById("exampleDataList").value = "";
 });
+
+/*Extracting the ID from the conversation buttons*/
+document.getElementById("conversationList").addEventListener("click",buton);
+
+function buton(e) {
+  if (e.target.tagName == 'BUTTON') {
+    buttonID=e.target.id;
+    console.log(buttonID);
+  }
+};
 
 socket.on('peer-msg', data => {
   printMsg(data);
@@ -48,7 +58,7 @@ function printMsg(data, me) {
   console.log('Convo: ' + data.ID + ' Sender: ' + data.username + ' Message: ' + data.msg);
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
-  newtxt.innerText = data;
+  newtxt.innerText = data.msg;
   msgRow.className = "row" ;
   if(me === true){
     newtxt.className = "text-end";
