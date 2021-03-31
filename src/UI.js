@@ -10,3 +10,5 @@ function addConvoToList (data) {
   newConvo.innerText = data.ID;
   document.getElementById("conversationList").append(newConvo);
 }
+
+module.exports = {clearConvoList: clearConvoList, addConvoToList: addConvoToList};

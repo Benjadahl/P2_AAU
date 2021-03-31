@@ -88,7 +88,7 @@ io.on('connection', socket => {
   });
 });
 
-/* Serve the public folder via Express */
-app.use(express.static('public'));
+/* Serve the dist folder via Express */
+app.use(express.static('dist'));
 
 io.listen(app.listen(3000));

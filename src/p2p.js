@@ -24,3 +24,5 @@ function sendDirectMsg (msg) {
     peer.send(msg);
   });
 }
+
+module.exports = {sendDirectMsg: sendDirectMsg};

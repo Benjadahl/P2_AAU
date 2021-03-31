@@ -1,3 +1,6 @@
+import { clearConvoList, addConvoToList } from "./UI.js";
+import { sendDirectMsg } from "./p2p.js";
+
 const socket = io();
 
 window.addEventListener("resize", () => {
