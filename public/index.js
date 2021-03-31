@@ -45,6 +45,8 @@ socket.on('chatLog', chatLog => {
 
 socket.on('newConversation', data => {
   addConvoToList(data);
+  addMemberToList(data);
+  console.log(data);
   data.chatLog.forEach(msg => printMsg(msg));
 });
 
@@ -67,6 +69,7 @@ function printMsg(data) {
 }
 
 function login (username) {
+  clearMembersList();
   clearConvoList();
   thisUser = username;
   socket.emit('userLogin', {username: username, peerID: peerJS.id});
