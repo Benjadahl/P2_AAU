@@ -1,5 +1,6 @@
 const socket = io();
 let buttonID;
+let thisUser;
 window.addEventListener("resize", () => {
   resizeAll();
 });
@@ -20,19 +21,17 @@ function reSize (ratio, id) {
 }
 
 document.getElementById("sendMsg").addEventListener("click", () => {
-  sendMsg(document.getElementById("exampleDataList").value);
+  sendMsg(document.getElementById("exampleDataList").value, buttonID);
   document.getElementById("exampleDataList").value = "";
 });
 
 /*Extracting the ID from the conversation buttons*/
-document.getElementById("conversationList").addEventListener("click",buton);
-
-function buton(e) {
+document.getElementById("conversationList").addEventListener("click", (e) => {
   if (e.target.tagName == 'BUTTON') {
     buttonID=e.target.id;
-    console.log(buttonID);
+    console.log(buttonID)
   }
-};
+});
 
 socket.on('peer-msg', data => {
   printMsg(data);
@@ -51,16 +50,15 @@ socket.on('newConversation', data => {
 
 function sendMsg(msg, convoID) {
   socket.emit('msg', {msg: msg, convoID: convoID});
-  printMsg(msg, true);
 }
 
-function printMsg(data, me) {
+function printMsg(data) {
   console.log('Convo: ' + data.ID + ' Sender: ' + data.username + ' Message: ' + data.msg);
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
   newtxt.innerText = data.msg;
   msgRow.className = "row" ;
-  if(me === true){
+  if(thisUser === data.username){
     newtxt.className = "text-end";
   }
   
@@ -70,6 +68,7 @@ function printMsg(data, me) {
 
 function login (username) {
   clearConvoList();
+  thisUser = username;
   socket.emit('userLogin', {username: username, peerID: peerJS.id});
 }
 
