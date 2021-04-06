@@ -86,6 +86,14 @@ io.on('connection', socket => {
     conversations.push(conversation);
     console.log(conversations);
   });
+
+  socket.on('mem', buttonID =>{
+    for(let i = 0; i < conversations.length; i++){
+      if(buttonID == conversations[i].ID){
+        console.log("Acessing "+ conversations[i].ID);
+      }
+    }
+  })
 });
 
 /* Serve the public folder via Express */
