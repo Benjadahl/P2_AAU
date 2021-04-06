@@ -1,5 +1,4 @@
 const socket = io();
-let buttonID;
 let thisUser;
 window.addEventListener("resize", () => {
   resizeAll();
@@ -19,19 +18,6 @@ function reSize (ratio, id) {
   let height = window.innerHeight * ratio;
   document.getElementById(id).style.setProperty("max-height", height.toString() + "px;"); 
 }
-
-document.getElementById("sendMsg").addEventListener("click", () => {
-  sendMsg(document.getElementById("exampleDataList").value, buttonID);
-  document.getElementById("exampleDataList").value = "";
-});
-
-/*Extracting the ID from the conversation buttons*/
-document.getElementById("conversationList").addEventListener("click", (e) => {
-  if (e.target.tagName == 'BUTTON') {
-    buttonID=e.target.id;
-    console.log(buttonID)
-  }
-});
 
 socket.on('peer-msg', data => {
   printMsg(data);
