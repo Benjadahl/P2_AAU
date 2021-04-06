@@ -20,10 +20,12 @@ peer.on('open', () => {
   });*/
 });
 
-function sendDirectMsg (msg) {
+export function sendDirectMsg (msg) {
   peers.forEach(peer => {
     peer.send(msg);
   });
 }
 
-export {sendDirectMsg};
+export function getPeerJSid () {
+  return peer.id;
+}
