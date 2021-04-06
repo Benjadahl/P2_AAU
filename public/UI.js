@@ -14,7 +14,6 @@ function addConvoToList(data) {
   document.getElementById("conversationList").append(newConvo);
 }
 
-
 function clearMembersList() {
   membersList.innerHTML = "";
 }
@@ -23,6 +22,7 @@ function addMemberToList(data) {
   let newRow;
   let newCell1; 
   let newCell2;
+  clearMembersList();
   for (let i = 0; i < data.members.length; i++) {
     newRow = membersList.insertRow(0);
     newCell1 = newRow.insertCell(0);
