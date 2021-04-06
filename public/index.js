@@ -1,7 +1,7 @@
 const socket = io();
 let buttonID;
 let thisUser;
-let conversations=[];
+let conversations = [];
 window.addEventListener("resize", () => {
   resizeAll();
 });
@@ -15,7 +15,6 @@ function resizeAll() {
   reSize(roomRatio, "chatGroup");
 }
 
-
 function reSize(ratio, id) {
   let height = window.innerHeight * ratio;
   document.getElementById(id).style.setProperty("max-height", height.toString() + "px;");
@@ -25,8 +24,6 @@ document.getElementById("sendMsg").addEventListener("click", () => {
   sendMsg(document.getElementById("exampleDataList").value, buttonID);
   document.getElementById("exampleDataList").value = "";
 });
-
-
 
 socket.on('mem2', data => {
   console.log(data[0]);
@@ -48,10 +45,10 @@ socket.on('newConversation', data => {
     if (e.target.tagName == 'BUTTON') {
       buttonID = e.target.id;
       console.log(buttonID);
-      for(let i = 0; i < conversations.length; i++){
-        if(buttonID == conversations[i].ID){
-          console.log("Acessing: "+ conversations[i].ID);
-          console.log("Members: "+ conversations[i].members);
+      for (let i = 0; i < conversations.length; i++) {
+        if (buttonID == conversations[i].ID) {
+          console.log("Acessing: " + conversations[i].ID);
+          console.log("Members: " + conversations[i].members);
           console.log(conversations[i].members[0].username);
           addMemberToList(conversations[i]);
           break;
@@ -83,12 +80,19 @@ function printMsg(data) {
   msgRow.appendChild(newtxt);
 }
 
+
+
 function login(username) {
   clearMembersList();
   clearConvoList();
   thisUser = username;
   socket.emit('userLogin', { username: username, peerID: peerJS.id });
 }
+
+document.getElementById("loginButton").addEventListener("click", () => {
+  login(document.getElementById("username").value);
+  clearLoginField();
+});
 
 function newConversation(members) {
   socket.emit('newConversation', members);

@@ -31,3 +31,8 @@ function addMemberToList(data) {
     newCell2.innerHTML = "    Online";
   }
 }
+
+function clearLoginField(){
+  let loginField=document.getElementById("loginField");
+  loginField.remove();
+}
