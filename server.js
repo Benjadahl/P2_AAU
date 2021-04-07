@@ -1,7 +1,9 @@
-const express = require('express');
+import express from 'express';
 const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+import { createServer } from "http";
+import { Server } from "socket.io";
+const http = createServer(app);
+const io = new Server(http, {});
 
 class Conversation {
   constructor (ID, members) {
@@ -88,7 +90,7 @@ io.on('connection', socket => {
   });
 });
 
-/* Serve the public folder via Express */
-app.use(express.static('public'));
+/* Serve the dist folder via Express */
+app.use(express.static('dist'));
 
 io.listen(app.listen(3000));

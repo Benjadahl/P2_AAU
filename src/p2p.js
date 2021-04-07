@@ -1,26 +1,31 @@
-let peerJS = new Peer();
+import 'peerjs';
+const peer = new Peer();
 let peers = [];
 
 /* Open event handler run, when client has been
    assigned an ID by peerServer */
-peerJS.on('open', () => {
-  console.log(peerJS.id);
+peer.on('open', () => {
+  console.log(peer.id);
 
-  peerJS.on('connection', conn => {
+  peer.on('connection', conn => {
     conn.on('data', data => {
       printMsg(data);
     });
   });
   
   /*socket.on('newPeer', ID => {
-    let conn = peerJS.connect(ID);
+    let conn = peer.connect(ID);
     console.log(ID);
     peers.push(conn);
   });*/
 });
 
-function sendDirectMsg (msg) {
+export function sendDirectMsg (msg) {
   peers.forEach(peer => {
     peer.send(msg);
   });
+}
+
+export function getPeerJSid () {
+  return peer.id;
 }

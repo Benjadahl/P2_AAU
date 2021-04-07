@@ -1,4 +1,14 @@
+import { clearConvoList, addConvoToList } from "./UI.js";
+import { sendDirectMsg, getPeerJSid } from "./p2p.js";
+import { io } from "socket.io-client";
+
 const socket = io();
+
+/*
+  Prompt for username on login
+*/
+
+login(prompt("Enter username:"));
 
 window.addEventListener("resize", () => {
   resizeAll();
@@ -60,7 +70,7 @@ function printMsg(data, me) {
 
 function login (username) {
   clearConvoList();
-  socket.emit('userLogin', {username: username, peerID: peerJS.id});
+  socket.emit('userLogin', {username: username, peerID: getPeerJSid});
 }
 
 function newConversation (members) {
