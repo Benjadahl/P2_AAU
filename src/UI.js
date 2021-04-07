@@ -21,3 +21,5 @@ function addConvoToList (data) {
   });
   document.getElementById("conversationList").append(newConvo);
 }
+
+export {clearConvoList, addConvoToList};
