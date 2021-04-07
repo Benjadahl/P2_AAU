@@ -3,9 +3,8 @@ import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
 
 const socket = io();
-<<<<<<< HEAD:public/index.js
 let thisUser;
-=======
+let conversations = {};
 
 /*
   Prompt for username on login
@@ -13,7 +12,6 @@ let thisUser;
 
 login(prompt("Enter username:"));
 
->>>>>>> main:src/index.js
 window.addEventListener("resize", () => {
   resizeAll();
 });
@@ -45,6 +43,8 @@ socket.on('chatLog', chatLog => {
 
 socket.on('newConversation', data => {
   addConvoToList(data);
+  conversations[data.ID] = data;
+  console.log(data);
   data.chatLog.forEach(msg => printMsg(msg));
 });
 
@@ -66,10 +66,10 @@ function printMsg(data) {
   msgRow.appendChild(newtxt);
 }
 
-function login (username) {
+function login (reqUsername) {
   clearConvoList();
-  thisUser = username;
-  socket.emit('userLogin', {username: username, peerID: getPeerJSid});
+  thisUser = reqUsername;
+  socket.emit('userLogin', {username: thisUser, peerID: getPeerJSid()});
 }
 
 function newConversation (members) {

@@ -70,11 +70,11 @@ io.on('connection', socket => {
       const toSend = {
         ID: conversation.ID,
         chatLog: conversation.chatLog,
-        members: []
+        members: {}
       }
 
       conversation.members.forEach(member => {
-        toSend.members.push(member.username);
+        toSend.members[member.username] = member.peerID;
       });
 
       socket.emit('newConversation', toSend);
