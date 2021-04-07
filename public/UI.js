@@ -64,13 +64,9 @@ document.getElementById("createConvo").addEventListener("click", () => {
         tempList.push(temp);
         temp = null;
       }
-      tempMember[i] = null;
     }
-    j=0;
-    endOfName=0;
     tempList.push(thisUser);
     document.getElementById("convoMembers").value = '';
     newConversation(tempList);
-    tempList=[];
   }
 });
