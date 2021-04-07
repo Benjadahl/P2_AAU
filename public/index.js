@@ -19,6 +19,15 @@ function reSize (ratio, id) {
   document.getElementById(id).style.setProperty("max-height", height.toString() + "px;"); 
 }
 
+document.onkeydown = function (e){
+    e = e || windows.event;
+    let key = e.which || e.keyCode;
+    if(key === 13) {
+       sendMsg(document.getElementById("exampleDataList").value);
+       document.getElementById("exampleDataList").value = "";
+    }
+}
+
 document.getElementById("sendMsg").addEventListener("click", () => {
   sendMsg(document.getElementById("exampleDataList").value);
   document.getElementById("exampleDataList").value = "";
@@ -57,6 +66,7 @@ function printMsg(data, me) {
   document.getElementById("sendt").appendChild(msgRow);   
   msgRow.appendChild(newtxt);
 }
+
 
 function login (username) {
   clearConvoList();

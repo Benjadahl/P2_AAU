@@ -65,6 +65,17 @@
         <div class="col-2"></div>
         <div class="col-8">
           <input class="form-control" id="exampleDataList" placeholder="Type your msg here...">
+          <script type="text/javascript">
+            function stopRKey(evt) 
+            {
+               var evt=(evt) ? evt : ((event) ? event : null);
+               var node=(evt.target)?evt.target:((evt.srcElement)?evt.srcElement:null);
+               if ((evt.keyCode == 13) && (node.type=="text")) {return false;}
+            }
+            
+            document.onkeypress = stopRKey;
+            
+            </script>
         </div>
         <div class="d-grid col-2 position-absolute end-0">
           <button type="button" class="btn btn-primary" id="sendMsg">Send</button>
@@ -78,7 +89,6 @@
   <script src="UI.js"></script>
   <script src="p2p.js"></script>
   <script src="index.js"></script>
-
 
 </body>
 
