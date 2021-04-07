@@ -19,18 +19,17 @@ function reSize (ratio, id) {
   document.getElementById(id).style.setProperty("max-height", height.toString() + "px;"); 
 }
 
-document.onkeydown = function (e){
-    e = e || windows.event;
-    let key = e.which || e.keyCode;
-    if(key === 13) {
-       sendMsg(document.getElementById("exampleDataList").value);
-       document.getElementById("exampleDataList").value = "";
-    }
-}
+/* Bind send message to enter key in input */
+document.getElementById("exampleDataList").addEventListener("keydown", e => {
+  if (e.code === "Enter") {
+    sendFieldValue();
+    e.preventDefault();
+  }
+});
 
+/* Bind send message to send button */
 document.getElementById("sendMsg").addEventListener("click", () => {
-  sendMsg(document.getElementById("exampleDataList").value);
-  document.getElementById("exampleDataList").value = "";
+  sendFieldValue();
 });
 
 socket.on('peer-msg', data => {
@@ -47,6 +46,11 @@ socket.on('newConversation', data => {
   addConvoToList(data);
   data.chatLog.forEach(msg => printMsg(msg));
 });
+
+function sendFieldValue () {
+  sendMsg(document.getElementById("exampleDataList").value);
+  document.getElementById("exampleDataList").value = "";
+}
 
 function sendMsg(msg, convoID) {
   socket.emit('msg', {msg: msg, convoID: convoID});
