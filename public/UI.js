@@ -33,6 +33,6 @@ function addMemberToList(data) {
 }
 
 function clearLoginField(){
-  let loginField=document.getElementById("loginField");
+  let loginField=document.getElementById("Overlay");
   loginField.remove();
 }
