@@ -41,37 +41,36 @@ function clearLoginField() {
 
 /*Make a conversation in the UI */
 document.getElementById("createConvo").addEventListener("click", () => {
-  let person = 0;
+  let endOfName = 0;
   let j = 0;
   let temp;
-  let array = [];
-  let tempMem = document.getElementById("convoMembers").value;
-  if (tempMem != '') {
-    tempMem += ',';
-    for (let i = 0; i < tempMem.length; i++) {
-      if (tempMem[i] === ',') {
-        if (person != 0) {
-          j = person;
+  let tempList = [];
+  let tempMember = document.getElementById("convoMembers").value;
+  if (tempMember != '') {
+    tempMember += ',';
+    for (let i = 0; i < tempMember.length; i++) {
+      if (tempMember[i] === ',') {
+        if (endOfName != 0) {
+          j = endOfName;
         }
-        person = i;
-        for (j; j < person; j++) {
-          if (temp == null && tempMem[j] != ',' && tempMem[j] != ' ') {
-            temp = tempMem[j];
-          } else if (tempMem[j] != ',' && tempMem[j] != ' ') {
-            temp += tempMem[j]
+        endOfName = i;
+        for (j; j < endOfName; j++) {
+          if (temp == null && tempMember[j] != ',' && tempMember[j] != ' ') {
+            temp = tempMember[j];
+          } else if (tempMember[j] != ',' && tempMember[j] != ' ') {
+            temp += tempMember[j]
           }
         }
-        array.push(temp);
+        tempList.push(temp);
         temp = null;
       }
-      tempMem[i] = null;
+      tempMember[i] = null;
     }
     j=0;
-    person=0;
-    console.log(temp);
-    console.log(array);
+    endOfName=0;
+    tempList.push(thisUser);
     document.getElementById("convoMembers").value = '';
-    newConversation(array);
-    array=[];
+    newConversation(tempList);
+    tempList=[];
   }
 });
