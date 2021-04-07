@@ -25,10 +25,6 @@ document.getElementById("sendMsg").addEventListener("click", () => {
   document.getElementById("exampleDataList").value = "";
 });
 
-socket.on('mem2', data => {
-  console.log(data[0]);
-});
-
 socket.on('peer-msg', data => {
   printMsg(data);
 });
