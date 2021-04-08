@@ -1,7 +1,19 @@
+import { clearConvoList, addConvoToList, clearMembersList, addMemberToList, makeConversation } from "./UI.js";
+import { sendDirectMsg, getPeerJSid } from "./p2p.js";
+import { io } from "socket.io-client";
+
 const socket = io();
 let buttonID;
-let thisUser;
 let conversations = [];
+//let conversations = {};
+let username;
+
+/*
+  Prompt for username on login
+*/
+
+//login(prompt("Enter username:"));
+
 window.addEventListener("resize", () => {
   resizeAll();
 });
@@ -20,9 +32,17 @@ function reSize(ratio, id) {
   document.getElementById(id).style.setProperty("max-height", height.toString() + "px;");
 }
 
+/* Bind send message to enter key in input */
+document.getElementById("exampleDataList").addEventListener("keydown", e => {
+  if (e.code === "Enter") {
+    sendFieldValue();
+    e.preventDefault();
+  }
+});
+
+/* Bind send message to send button */
 document.getElementById("sendMsg").addEventListener("click", () => {
-  sendMsg(document.getElementById("exampleDataList").value, buttonID);
-  document.getElementById("exampleDataList").value = "";
+  sendFieldValue();
 });
 
 socket.on('peer-msg', data => {
@@ -36,27 +56,31 @@ socket.on('chatLog', chatLog => {
 });
 
 socket.on('newConversation', data => {
-  /*Extracting the ID from the conversation buttons and adding the correct member to the correct lists*/
-  document.getElementById("conversationList").addEventListener("click", (e) => {
+   /*Extracting the ID from the conversation buttons and adding the correct member to the correct lists*/
+   document.getElementById("conversationList").addEventListener("click", (e) => {
     if (e.target.tagName == 'BUTTON') {
       buttonID = e.target.id;
       console.log(buttonID);
       for (let i = 0; i < conversations.length; i++) {
         if (buttonID == conversations[i].ID) {
-          console.log("Acessing: " + conversations[i].ID);
-          console.log("Members: " + conversations[i].members);
-          console.log(conversations[i].members[0].username);
           addMemberToList(conversations[i]);
           break;
         }
       }
     }
   });
+
   conversations.push(data);
   addConvoToList(data);
+  conversations[data.ID] = data;
   console.log(data);
   data.chatLog.forEach(msg => printMsg(msg));
 });
+
+function sendFieldValue () {
+  sendMsg(document.getElementById("exampleDataList").value, buttonID);
+  document.getElementById("exampleDataList").value = "";
+}
 
 function sendMsg(msg, convoID) {
   socket.emit('msg', { msg: msg, convoID: convoID });
@@ -68,7 +92,7 @@ function printMsg(data) {
   let msgRow = document.createElement('div');
   newtxt.innerText = data.msg;
   msgRow.className = "row";
-  if (thisUser === data.username) {
+  if (username === data.username) {
     newtxt.className = "text-end";
   }
 
@@ -76,20 +100,25 @@ function printMsg(data) {
   msgRow.appendChild(newtxt);
 }
 
-
-
-function login(username) {
-  clearMembersList();
+function login (reqUsername) {
   clearConvoList();
-  thisUser = username;
-  socket.emit('userLogin', { username: username, peerID: peerJS.id });
+  clearMembersList();
+  username = reqUsername;
+  console.log("you are "+username);
+  socket.emit('userLogin', {username: username, peerID: getPeerJSid()});
 }
 
 document.getElementById("loginButton").addEventListener("click", () => {
   login(document.getElementById("username").value);
-  clearLoginField();
+  document.getElementById("Overlay").remove();
 });
 
+document.getElementById("createConvo").addEventListener("click", () => {
+  newConversation(makeConversation(document.getElementById("convoMembers").value, username));
+  document.getElementById("convoMembers").value = '';
+});
+
+ 
 function newConversation(members) {
   socket.emit('newConversation', members);
 }

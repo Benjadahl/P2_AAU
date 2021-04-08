@@ -29,23 +29,16 @@ function addMemberToList(data) {
     newCell1 = newRow.insertCell(0);
     newCell2 = newRow.insertCell(1);
     newCell1.innerHTML = data.members[i];
-    newCell2.innerHTML = "    Online";
+    newCell2.innerHTML = "Online";
   }
 }
 
-function clearLoginField() {
-  let loginField = document.getElementById("Overlay");
-  loginField.remove();
-}
-
-
 /*Make a conversation in the UI */
-document.getElementById("createConvo").addEventListener("click", () => {
+function makeConversation(tempMember, thisUser){
   let endOfName = 0;
   let j = 0;
   let temp;
   let tempList = [];
-  let tempMember = document.getElementById("convoMembers").value;
   if (tempMember != '') {
     tempMember += ',';
     for (let i = 0; i < tempMember.length; i++) {
@@ -66,7 +59,7 @@ document.getElementById("createConvo").addEventListener("click", () => {
       }
     }
     tempList.push(thisUser);
-    document.getElementById("convoMembers").value = '';
-    newConversation(tempList);
+    return tempList;
   }
-});
+};
+export {clearConvoList, addConvoToList, clearMembersList, addMemberToList, makeConversation};
