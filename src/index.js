@@ -56,20 +56,6 @@ socket.on('chatLog', chatLog => {
 });
 
 socket.on('newConversation', data => {
-   /*Extracting the ID from the conversation buttons and adding the correct member to the correct lists*/
-   document.getElementById("conversationList").addEventListener("click", (e) => {
-    if (e.target.tagName == 'BUTTON') {
-      buttonID = e.target.id;
-      console.log(buttonID);
-      for (let i = 0; i < conversations.length; i++) {
-        if (buttonID == conversations[i].ID) {
-          addMemberToList(conversations[i]);
-          break;
-        }
-      }
-    }
-  });
-
   conversations.push(data);
   addConvoToList(data);
   conversations[data.ID] = data;
@@ -104,7 +90,6 @@ function login (reqUsername) {
   clearConvoList();
   clearMembersList();
   username = reqUsername;
-  console.log("you are "+username);
   socket.emit('userLogin', {username: username, peerID: getPeerJSid()});
 }
 
@@ -116,6 +101,20 @@ document.getElementById("loginButton").addEventListener("click", () => {
 document.getElementById("createConvo").addEventListener("click", () => {
   newConversation(makeConversation(document.getElementById("convoMembers").value, username));
   document.getElementById("convoMembers").value = '';
+});
+
+/*Extracting the ID from the conversation buttons and adding the correct member to the correct lists*/
+document.getElementById("conversationList").addEventListener("click", (e) => {
+  if (e.target.tagName == 'BUTTON') {
+    buttonID = e.target.id;
+    console.log(buttonID);
+    for (let i = 0; i < conversations.length; i++) {
+      if (buttonID == conversations[i].ID) {
+        addMemberToList(conversations[i]);
+        break;
+      }
+    }
+  }
 });
 
  

@@ -24,11 +24,13 @@ function addMemberToList(data) {
   let newCell1;
   let newCell2;
   clearMembersList();
-  for (let i = 0; i < data.members.length; i++) {
+  for (let i = 0; i < Object.keys(data.members).length; i++) {
+    console.log('b'+i)
     newRow = membersList.insertRow(0);
     newCell1 = newRow.insertCell(0);
     newCell2 = newRow.insertCell(1);
-    newCell1.innerHTML = data.members[i];
+    newCell1.innerHTML = Object.keys(data.members)[i];
+    console.log(Object.keys(data.members)[i])
     newCell2.innerHTML = "Online";
   }
 }
