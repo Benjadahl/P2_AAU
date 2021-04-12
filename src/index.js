@@ -1,5 +1,6 @@
 import { clearConvoList, addConvoToList, clearMembersList, addMemberToList, makeConversation } from "./UI.js";
 import { sendDirectMsg, getPeerJSid } from "./p2p.js";
+
 import { io } from "socket.io-client";
 
 const socket = io();

@@ -1,3 +1,4 @@
+import "./index.css";
 const conversationList = document.getElementById("conversationList");
 const membersList = document.getElementById("membersOfChat");
 
