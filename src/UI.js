@@ -20,49 +20,27 @@ function clearMembersList() {
   membersList.innerHTML = "";
 }
 
-function addMemberToList(data) {
-  let newRow;
-  let newCell1;
-  let newCell2;
+function updatesMemberList(members) {
   clearMembersList();
-  for (let i = 0; i < Object.keys(data.members).length; i++) {
-    console.log('b'+i)
-    newRow = membersList.insertRow(0);
-    newCell1 = newRow.insertCell(0);
-    newCell2 = newRow.insertCell(1);
-    newCell1.innerHTML = Object.keys(data.members)[i];
-    console.log(Object.keys(data.members)[i])
+  let usernames = Object.keys(members);
+  for (let i = 0; i < usernames.length; i++) {
+    let newRow = membersList.insertRow(0);
+    let newCell1 = newRow.insertCell(0);
+    let newCell2 = newRow.insertCell(1);
+    newCell1.innerHTML = usernames[i];
+    console.log(usernames[i])
     newCell2.innerHTML = "Online";
   }
 }
 
 /*Make a conversation in the UI */
 function makeConversation(tempMember, thisUser){
-  let endOfName = 0;
-  let j = 0;
-  let temp;
-  let tempList = [];
+  let tempList = []
   if (tempMember != '') {
-    tempMember += ',';
-    for (let i = 0; i < tempMember.length; i++) {
-      if (tempMember[i] === ',') {
-        if (endOfName != 0) {
-          j = endOfName;
-        }
-        endOfName = i;
-        for (j; j < endOfName; j++) {
-          if (temp == null && tempMember[j] != ',' && tempMember[j] != ' ') {
-            temp = tempMember[j];
-          } else if (tempMember[j] != ',' && tempMember[j] != ' ') {
-            temp += tempMember[j]
-          }
-        }
-        tempList.push(temp);
-        temp = null;
-      }
-    }
+    tempList = tempMember.split(",").map(s =>s.trim());
     tempList.push(thisUser);
+    console.log(tempList);
     return tempList;
   }
 };
-export {clearConvoList, addConvoToList, clearMembersList, addMemberToList, makeConversation};
+export {clearConvoList, addConvoToList, clearMembersList, updatesMemberList, makeConversation};
