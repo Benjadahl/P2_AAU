@@ -1,4 +1,4 @@
-import { clearConvoList, addConvoToList, clearMembersList, updatesMemberList, makeConversation } from "./UI.js";
+import { clearConvoList, addConvoToList, clearMembersList, updatesMemberList, passUserString } from "./UI.js";
 import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
 
@@ -93,7 +93,7 @@ document.getElementById("loginButton").addEventListener("click", () => {
 });
 
 document.getElementById("createConvo").addEventListener("click", () => {
-  newConversation(makeConversation(document.getElementById("convoMembers").value, username));
+  newConversation(passUserString(document.getElementById("convoMembers").value, username));
   document.getElementById("convoMembers").value = '';
 });
 

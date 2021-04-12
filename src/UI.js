@@ -34,7 +34,7 @@ function updatesMemberList(members) {
 }
 
 /*Make a conversation in the UI */
-function makeConversation(tempMember, thisUser){
+function passUserString(tempMember, thisUser){
   let tempList = []
   if (tempMember != '') {
     tempList = tempMember.split(",").map(s =>s.trim());
@@ -43,4 +43,4 @@ function makeConversation(tempMember, thisUser){
     return tempList;
   }
 };
-export {clearConvoList, addConvoToList, clearMembersList, updatesMemberList, makeConversation};
+export {clearConvoList, addConvoToList, clearMembersList, updatesMemberList, passUserString};
