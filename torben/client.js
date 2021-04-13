@@ -1,10 +1,6 @@
 import 'peerjs';
 import addRecieveHandler from './client/recieveMessage.js';
 
-/*peerObject.on('open', () => {
-
-});*/
-
 export default class Torben {
   constructor (socket) {
     const peer = new Peer();
