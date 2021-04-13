@@ -40,10 +40,10 @@ function updatesMemberList(members) {
 }
 
 /*Make a conversation in the UI */
-function passUserString(tempMember, thisUser){
+function parseUserString(tempMember, thisUser){
   let tempList = []
   if (tempMember != '') {
-    tempList = tempMember.split(",").map(s =>s.trim());
+    tempList = tempMember.split(",").map(name => name.trim());
     tempList.push(thisUser);
     console.log(tempList);
     return tempList;
@@ -54,4 +54,4 @@ function getCurConversation () {
   return curConversation;
 }
 
-export {clearConvoList, addConvoToList, clearMembersList, updatesMemberList, passUserString, getCurConversation};
+export {clearConvoList, addConvoToList, clearMembersList, updatesMemberList, parseUserString, getCurConversation};
