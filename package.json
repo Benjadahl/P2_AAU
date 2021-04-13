@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest",
     "build:prod": "webpack --config webpack.prod.js",
-    "build:dev": "webpack --config webpack.dev.js"
+    "build:dev": "webpack --config webpack.dev.js",
+    "build:torben:prod": "webpack --config webpack.torben.prod.js",
+    "build:torben:dev": "webpack --config webpack.torben.dev.js"
   },
   "repository": {
     "type": "git",
