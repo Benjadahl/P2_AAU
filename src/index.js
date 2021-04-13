@@ -1,11 +1,9 @@
-import { clearConvoList, addConvoToList, clearMembersList, updatesMemberList, passUserString } from "./UI.js";
+import { clearConvoList, addConvoToList, clearMembersList, passUserString, getCurConversation } from "./UI.js";
 import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
 
 const socket = io();
-let curentConvo;
-let conversations = [];
-//let conversations = {};
+let conversations = {};
 let username;
 
 window.addEventListener("resize", () => {
@@ -50,15 +48,14 @@ socket.on('chatLog', chatLog => {
 });
 
 socket.on('newConversation', data => {
-  conversations.push(data);
-  addConvoToList(data);
   conversations[data.ID] = data;
+  addConvoToList(conversations[data.ID]);
   console.log(data);
   data.chatLog.forEach(msg => printMsg(msg));
 });
 
 function sendFieldValue () {
-  sendMsg(document.getElementById("exampleDataList").value, curentConvo);
+  sendMsg(document.getElementById("exampleDataList").value, getCurConversation());
   document.getElementById("exampleDataList").value = "";
 }
 
@@ -98,7 +95,7 @@ document.getElementById("createConvo").addEventListener("click", () => {
 });
 
 /*Extracting the ID from the conversation buttons and adding the correct member to the correct lists*/
-document.getElementById("conversationList").addEventListener("click", (e) => {
+/*document.getElementById("conversationList").addEventListener("click", (e) => {
   if (e.target.tagName == 'BUTTON') {
     curentConvo = e.target.id;
     for (let i = 0; i < conversations.length; i++) {
@@ -108,7 +105,7 @@ document.getElementById("conversationList").addEventListener("click", (e) => {
       }
     }
   }
-});
+});*/
 
  
 function newConversation(members) {

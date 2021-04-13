@@ -2,17 +2,23 @@ import "./index.css";
 const conversationList = document.getElementById("conversationList");
 const membersList = document.getElementById("membersOfChat");
 
+let curConversation;
 
 function clearConvoList() {
   conversationList.innerHTML = "";
   document.getElementById("sendt").innerHTML = ""
 }
 
-function addConvoToList(data) {
+function addConvoToList(conversation) {
+  const ID = conversation.ID;
   let newConvo = document.createElement("button");
   newConvo.classList.add("list-group-item", "list-group-item-action");
-  newConvo.innerText = data.ID;
-  newConvo.id = data.ID;
+  newConvo.innerText = ID;
+  newConvo.addEventListener("click", () => {
+    curConversation = ID;
+    updatesMemberList(conversation.members);
+  });
+
   document.getElementById("conversationList").append(newConvo);
 }
 
@@ -43,4 +49,9 @@ function passUserString(tempMember, thisUser){
     return tempList;
   }
 };
-export {clearConvoList, addConvoToList, clearMembersList, updatesMemberList, passUserString};
+
+function getCurConversation () {
+  return curConversation
+}
+
+export {clearConvoList, addConvoToList, clearMembersList, updatesMemberList, passUserString, getCurConversation};
