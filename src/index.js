@@ -93,20 +93,6 @@ document.getElementById("createConvo").addEventListener("click", () => {
   newConversation(passUserString(document.getElementById("convoMembers").value, username));
   document.getElementById("convoMembers").value = '';
 });
-
-/*Extracting the ID from the conversation buttons and adding the correct member to the correct lists*/
-/*document.getElementById("conversationList").addEventListener("click", (e) => {
-  if (e.target.tagName == 'BUTTON') {
-    curentConvo = e.target.id;
-    for (let i = 0; i < conversations.length; i++) {
-      if (curentConvo == conversations[i].ID) {
-        updatesMemberList(conversations[i].members);
-        break;
-      }
-    }
-  }
-});*/
-
  
 function newConversation(members) {
   socket.emit('newConversation', members);

@@ -51,7 +51,7 @@ function passUserString(tempMember, thisUser){
 };
 
 function getCurConversation () {
-  return curConversation
+  return curConversation;
 }
 
 export {clearConvoList, addConvoToList, clearMembersList, updatesMemberList, passUserString, getCurConversation};
