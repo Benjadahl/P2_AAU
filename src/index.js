@@ -1,13 +1,17 @@
 import { clearConvoList, addConvoToList } from "./UI.js";
 import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
-import testFunction from "../torben/client.js";
-testFunction();
+import Torben from "../torben/client.js";
+
 
 const socket = io();
 let conversations = {};
 let username;
 
+let t = new Torben(socket);
+setTimeout(() => {
+  console.log(t.id);
+}, 3000);
 /*
   Prompt for username on login
 */
