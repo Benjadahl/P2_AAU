@@ -1,10 +1,17 @@
 import { clearConvoList, addConvoToList, clearMembersList, parseUserString, getCurConversation } from "./UI.js";
 import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
+import Torben from "../torben/client.js";
+
 
 const socket = io();
 let conversations = {};
 let username;
+
+let t = new Torben(socket);
+setTimeout(() => {
+  console.log(t.id);
+}, 3000);
 
 window.addEventListener("resize", () => {
   resizeAll();

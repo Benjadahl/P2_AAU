@@ -4,6 +4,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 const http = createServer(app);
 const io = new Server(http, {});
+import torben from "./torben/server.js";
 
 class Conversation {
   constructor (ID, members) {
@@ -50,6 +51,8 @@ class User {
 
 let conversations = [];
 let users = {};
+
+torben(io);
 
 io.on('connection', socket => {
   socket.on('msg', data => {
