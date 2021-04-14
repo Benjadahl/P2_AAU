@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-dev:
+    runs-on: ubuntu-latest
+        
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Install node_modules
+      run: npm install 
+
+    - name: Create dev build
+      run: npm run build:dev
+
+  build-prod:
+    runs-on: ubuntu-latest
+        
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Install node_modules
+      run: npm install 
+
+    - name: Create prod build
+      run: npm run build:prod
+
+  unit-tests:
+    needs: [build-dev, build-prod]
+    runs-on: ubuntu-latest
+        
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Install node_modules
+      run: npm install 
+
+    - name: Run unit tests
+      run: npm run test
