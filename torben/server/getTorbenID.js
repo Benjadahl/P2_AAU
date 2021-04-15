@@ -5,7 +5,7 @@ export default function getTorbenID(socket, peerID, connections) {
 
   do {
     torbenID = crypto.randomBytes(16).toString('hex');
-  } while (connections[torbenID] != undefined)
+  } while (connections[torbenID] != undefined);
 
   connections[torbenID] = {
     peerID: peerID,
