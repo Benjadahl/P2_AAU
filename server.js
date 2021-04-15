@@ -97,4 +97,4 @@ io.on('connection', socket => {
 /* Serve the dist folder via Express */
 app.use(express.static('dist'));
 
-io.listen(app.listen(3000));
+io.listen(app.listen(3000, '0.0.0.0'));
