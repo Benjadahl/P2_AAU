@@ -5,68 +5,54 @@ import { Server } from "socket.io";
 const http = createServer(app);
 const io = new Server(http, {});
 
-// class conversation skal laves om til et globalt objekt.
-/* 
 let Conversation = {
     members: [],
     chatLog: [],
-    ID: ID
-};
 
-members.forEach(username => {
-    this.members.push(users[username]);
+
+    sendMessage(msg, socket) {
+        let toLog = { msg: msg, timestamp: Date.now() };
+
+       this.members.forEach(member => {
+            if (member.socket.id == socket.id) {
+                toLog.username = member.username;
+            }
+        });
+
+        this.chatLog.push(toLog);
+        toLog.ID = this.ID;
+
+        this.members.forEach(member => {
+            member.socket.emit('peer-msg', toLog);
+        });
+    }
+}
+Conversation.members.forEach(username => {
+    members.push(users[username]);
     users[username].conversation.push(this);
 });
-*/
-
-class Conversation {
-  constructor (members) {
-    this.members = [];
-    this.chatLog = [];
-    members.forEach(username => {
-      this.members.push(users[username]);
-      users[username].conversation.push(this);
-    });
-  }
-
-sendMessage (msg, socket) {
-    let toLog = {msg: msg, timestamp: Date.now()};
-
-    this.members.forEach(member => {
-        if (member.socket.id == socket.id) {
-            toLog.username = member.username;
+    class User {
+        constructor(username, peerID, socket) {
+            this.username = username;
+            this.peerID = peerID;
+            this.socket = socket;
+            this.conversation = [];
         }
-    });
 
-    this.chatLog.push(toLog);
-    toLog.ID = this.ID;
-
-    this.members.forEach(member => {
-        member.socket.emit('peer-msg', toLog);
-    });
-  }
-}
-class User {
-    constructor(username, peerID, socket) {
-        this.username = username;
-        this.peerID = peerID;
-        this.socket = socket;
-        this.conversation = [];
+        setConnection(peerID, socket) {
+            this.peerID = peerID;
+            this.socket = socket;
+        }
     }
 
-    setConnection(peerID, socket) {
-        this.peerID = peerID;
-        this.socket = socket;
-    }
-}
 
-let conversation = [];
-let users = {};
+    let conversation = [];
+    let users = {};
 
 io.on('connection', socket => {
     socket.on('msg', data => {
         console.log('Message: ' + data);
-        conversation[data.convoID].sendMessage(data.msg, socket);
+        Conversation.sendMessage(data.msg, socket);
     });
 
     /* Function is called when a new peer connects */
@@ -95,8 +81,7 @@ io.on('connection', socket => {
         console.log(users);
     });
 
-    socket.on('Conversation', members => {
-        let conversation = new Conversation(conversation.length, members);
+    socket.on('Conversation', () => {
         conversation.push(conversation);
         console.log(conversation);
     });

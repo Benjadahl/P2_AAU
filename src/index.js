@@ -1,4 +1,4 @@
-import { clearConvoList, addConvoToList, clearMembersList, parseUserString, getCurConversation } from "./UI.js";
+import { clearMembersList } from "./UI.js";
 import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
 
@@ -48,20 +48,19 @@ socket.on('chatLog', chatLog => {
 });
 
 // Needs to be changed to having one conversation (only)
-socket.on('newConversation', data => {
+socket.on('Conversation', data => {
   conversations[data.ID] = data;
-  addConvoToList(conversations[data.ID]);
   console.log(data);
   data.chatLog.forEach(msg => printMsg(msg));
 });
 
 function sendFieldValue () {
-  sendMsg(document.getElementById("exampleDataList").value, getCurConversation());
+  sendMsg(document.getElementById("exampleDataList").value);
   document.getElementById("exampleDataList").value = "";
 }
 
-function sendMsg(msg, convoID) {
-  socket.emit('msg', { msg: msg, convoID: convoID });
+function sendMsg(msg) {
+  socket.emit('msg', { msg: msg });
 }
 
 function printMsg(data) {
@@ -74,13 +73,12 @@ function printMsg(data) {
     newtxt.className = "text-end";
   }
 
-  document.getElementById("sendt").appendChild(msgRow);
+  document.getElementById("sent").appendChild(msgRow);
   msgRow.appendChild(newtxt);
 }
 
 // When you login you need to be implemented into the conversation. 
 function login (reqUsername) {
-  clearConvoList();
   clearMembersList();
   username = reqUsername;
   socket.emit('userLogin', {username: username, peerID: getPeerJSid()});
@@ -89,15 +87,5 @@ function login (reqUsername) {
 document.getElementById("loginButton").addEventListener("click", () => {
   login(document.getElementById("username").value);
   document.getElementById("Overlay").remove();
+  socket.emit('Conversation', members);
 });
-
-// Createconvo needs to happen when you press on login button.
-document.getElementById("createConvo").addEventListener("click", () => {
-  newConversation(parseUserString(document.getElementById("convoMembers").value, username));
-  document.getElementById("convoMembers").value = '';
-});
-
-// Needs to be removed so that you enter a conversation instantly when you login with an existing or newly created user.
-function newConversation(members) {
-  socket.emit('newConversation', members);
-}

@@ -1,14 +1,5 @@
 import "./index.css";
-const conversationList = document.getElementById("conversationList");
 const membersList = document.getElementById("membersOfChat");
-
-let curConversation;
-
-// Needs to be removed.
-function clearConvoList() {
-  conversationList.innerHTML = "";
-  document.getElementById("sendt").innerHTML = ""
-}
 
 // No convolist anymore and therefore needs to be removed.
 function addConvoToList(conversation) {
@@ -16,10 +7,6 @@ function addConvoToList(conversation) {
   let newConvo = document.createElement("button");
   newConvo.classList.add("list-group-item", "list-group-item-action");
   newConvo.innerText = ID;
-  newConvo.addEventListener("click", () => {
-    curConversation = ID;
-    updatesMemberList(conversation.members);
-  });
 
   document.getElementById("conversationList").append(newConvo);
 }
@@ -42,19 +29,5 @@ function updatesMemberList(members) {
 }
 
 /*Make a conversation in the UI */
-function parseUserString(tempMember, thisUser){
-  let tempList = []
-  if (tempMember != '') {
-    tempList = tempMember.split(",").map(name => name.trim());
-    tempList.push(thisUser);
-    console.log(tempList);
-    return tempList;
-  }
-};
 
-// Needs to removed because there will be only one conversation.
-function getCurConversation () {
-  return curConversation;
-}
-
-export {clearConvoList, addConvoToList, clearMembersList, updatesMemberList, parseUserString, getCurConversation};
+export { addConvoToList, clearMembersList, updatesMemberList };
