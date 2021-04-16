@@ -64,7 +64,6 @@ function sendMsg(msg) {
 }
 
 function printMsg(data) {
-  console.log(data);
   console.log(' Sender: ' + data.username + ' Message: ' + data.msg);
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
