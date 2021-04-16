@@ -4,11 +4,13 @@ const membersList = document.getElementById("membersOfChat");
 
 let curConversation;
 
+// Needs to be removed.
 function clearConvoList() {
   conversationList.innerHTML = "";
   document.getElementById("sendt").innerHTML = ""
 }
 
+// No convolist anymore and therefore needs to be removed.
 function addConvoToList(conversation) {
   const ID = conversation.ID;
   let newConvo = document.createElement("button");
@@ -50,6 +52,7 @@ function parseUserString(tempMember, thisUser){
   }
 };
 
+// Needs to removed because there will be only one conversation.
 function getCurConversation () {
   return curConversation;
 }

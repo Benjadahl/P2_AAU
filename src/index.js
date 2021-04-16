@@ -47,6 +47,7 @@ socket.on('chatLog', chatLog => {
   });
 });
 
+// Needs to be changed to having one conversation (only)
 socket.on('newConversation', data => {
   conversations[data.ID] = data;
   addConvoToList(conversations[data.ID]);
@@ -77,6 +78,7 @@ function printMsg(data) {
   msgRow.appendChild(newtxt);
 }
 
+// When you login you need to be implemented into the conversation. 
 function login (reqUsername) {
   clearConvoList();
   clearMembersList();
@@ -89,11 +91,13 @@ document.getElementById("loginButton").addEventListener("click", () => {
   document.getElementById("Overlay").remove();
 });
 
+// Createconvo needs to happen when you press on login button.
 document.getElementById("createConvo").addEventListener("click", () => {
   newConversation(parseUserString(document.getElementById("convoMembers").value, username));
   document.getElementById("convoMembers").value = '';
 });
- 
+
+// Needs to be removed so that you enter a conversation instantly when you login with an existing or newly created user.
 function newConversation(members) {
   socket.emit('newConversation', members);
 }
