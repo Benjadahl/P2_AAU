@@ -64,7 +64,8 @@ function sendMsg(msg) {
 }
 
 function printMsg(data) {
-  console.log('Convo: ' + data.ID + ' Sender: ' + data.username + ' Message: ' + data.msg);
+  console.log(data);
+  console.log(' Sender: ' + data.username + ' Message: ' + data.msg);
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
   newtxt.innerText = data.msg;

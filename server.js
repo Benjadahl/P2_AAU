@@ -9,19 +9,15 @@ let Conversation = {
     members: [],
     chatLog: [],
 
-
     sendMessage(msg, socket) {
         let toLog = { msg: msg, timestamp: Date.now() };
-
-       this.members.forEach(member => {
+        this.members.forEach(member => {
             if (member.socket.id == socket.id) {
                 toLog.username = member.username;
             }
         });
-
+        
         this.chatLog.push(toLog);
-        toLog.ID = this.ID;
-
         this.members.forEach(member => {
             member.socket.emit('peer-msg', toLog);
         });
@@ -66,7 +62,7 @@ io.on('connection', socket => {
 
         users[data.username].conversation.forEach(conversation => {
             const toSend = {
-                ID: conversation.ID,
+                // ID: conversation.ID,
                 chatLog: conversation.chatLog,
                 members: {}
             }
