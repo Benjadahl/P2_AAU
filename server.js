@@ -82,6 +82,7 @@ io.on('connection', socket => {
     });
 
     socket.on('Conversation', () => {
+        
         conversation.push(conversation);
         console.log(conversation);
     });
