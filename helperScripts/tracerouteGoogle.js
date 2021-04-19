@@ -10,5 +10,5 @@ tracer.on('hop', hop => {
   fs.writeFile('hops.json', JSON.stringify(hops), 'utf8', () => {
     console.log("Wrote file");
   });
-}).trace("8.8.8.8");
+}).trace("212.237.248.11");
 
