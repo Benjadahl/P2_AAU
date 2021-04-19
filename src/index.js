@@ -1,9 +1,8 @@
-import { clearMembersList } from "./UI.js";
+import { updatesMemberList } from "./UI.js";
 import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
 
 const socket = io();
-let conversations = {};
 let username;
 
 window.addEventListener("resize", () => {
@@ -37,55 +36,54 @@ document.getElementById("sendMsg").addEventListener("click", () => {
   sendFieldValue();
 });
 
+//i probably destroyed this, and the rest of the peer stuff
 socket.on('peer-msg', data => {
   printMsg(data);
-});
-
-socket.on('chatLog', chatLog => {
-  chatLog.forEach(msg => {
-    printMsg(msg);
-  });
-});
-
-// Needs to be changed to having one conversation (only)
-socket.on('Conversation', data => {
-  conversations[data.ID] = data;
-  console.log(data);
   data.chatLog.forEach(msg => printMsg(msg));
 });
 
-function sendFieldValue () {
+function sendFieldValue() {
   sendMsg(document.getElementById("exampleDataList").value);
   document.getElementById("exampleDataList").value = "";
 }
 
 function sendMsg(msg) {
-  socket.emit('msg', { msg: msg });
+  socket.emit('msg', msg);
 }
 
 function printMsg(data) {
+<<<<<<< Updated upstream
   console.log(' Sender: ' + data.username + ' Message: ' + data.msg);
+=======
+  console.log('Sender: ' + data.username + ' Message: ' + data.msg);
+>>>>>>> Stashed changes
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
-  newtxt.innerText = data.msg;
+  newtxt.innerText = (data.username + ': ' + data.msg);
   msgRow.className = "row";
   if (username === data.username) {
+    newtxt.innerText = data.msg;
     newtxt.className = "text-end";
   }
-
-  document.getElementById("sent").appendChild(msgRow);
+  document.getElementById("sendt").appendChild(msgRow);
   msgRow.appendChild(newtxt);
 }
 
-// When you login you need to be implemented into the conversation. 
-function login (reqUsername) {
-  clearMembersList();
+function login(reqUsername) {
   username = reqUsername;
-  socket.emit('userLogin', {username: username, peerID: getPeerJSid()});
+  socket.emit('userLogin', { username: username, peerID: getPeerJSid() });
+  socket.on('login', listOfMembers => {
+    updatesMemberList(listOfMembers);
+  });
+  socket.on('chatLog', chatLog => {
+    chatLog.forEach(msg => {
+      printMsg(msg);
+    });
+  });
 }
 
 document.getElementById("loginButton").addEventListener("click", () => {
   login(document.getElementById("username").value);
   document.getElementById("Overlay").remove();
-  socket.emit('Conversation', members);
 });
+
