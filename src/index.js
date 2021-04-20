@@ -52,11 +52,7 @@ function sendMsg(msg) {
 }
 
 function printMsg(data) {
-<<<<<<< Updated upstream
   console.log(' Sender: ' + data.username + ' Message: ' + data.msg);
-=======
-  console.log('Sender: ' + data.username + ' Message: ' + data.msg);
->>>>>>> Stashed changes
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
   newtxt.innerText = (data.username + ': ' + data.msg);
@@ -72,9 +68,6 @@ function printMsg(data) {
 function login(reqUsername) {
   username = reqUsername;
   socket.emit('userLogin', { username: username, peerID: getPeerJSid() });
-  socket.on('login', listOfMembers => {
-    updatesMemberList(listOfMembers);
-  });
   socket.on('chatLog', chatLog => {
     chatLog.forEach(msg => {
       printMsg(msg);
@@ -87,3 +80,7 @@ document.getElementById("loginButton").addEventListener("click", () => {
   document.getElementById("Overlay").remove();
 });
 
+/*Updates the memberlist everytime a new person connects*/
+socket.on('login', listOfMembers => {
+  updatesMemberList(listOfMembers);
+});
