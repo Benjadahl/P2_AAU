@@ -58,9 +58,10 @@ io.on('connection', socket => {
         } else {
             users[data.username].setConnection(data.peerID, socket);
         }
+        /*emits the usernames to all users so that they can be shown in the interface*/
         Conversation.members.forEach(member => {
             member.socket.emit('login', listOfMembers);
-        })//emits the usernames to all users so that they can be shown in the interface
+        })
     });
 });
 

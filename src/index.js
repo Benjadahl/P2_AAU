@@ -63,6 +63,8 @@ function printMsg(data) {
   }
   document.getElementById("sendt").appendChild(msgRow);
   msgRow.appendChild(newtxt);
+  /*makes the scroll bar go the the bottom, to show the new messages*/
+  document.getElementById('sendt').scrollTop+=28;
 }
 
 function login(reqUsername) {
