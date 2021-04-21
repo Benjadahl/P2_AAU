@@ -2,10 +2,10 @@ import test from 'ava';
 import mergeTraceroutes from "../../torben/server/mergeTraceroutes.js";
 import fs from 'fs';
 
-const avaTrace = JSON.parse(fs.readFileSync('./traces/ava.json'));
-const jonasTrace = JSON.parse(fs.readFileSync('./traces/jonas.json'));
+const casperTrace = JSON.parse(fs.readFileSync('./traces/casper.json'));
+const lukasTrace = JSON.parse(fs.readFileSync('./traces/lukas.json'));
 
 test('Merge two traces together', t => {
-  console.log(mergeTraceroutes(avaTrace, jonasTrace));
+  console.log(JSON.stringify(mergeTraceroutes(casperTrace, lukasTrace), null, 2));
   t.is(true, true);
 });
