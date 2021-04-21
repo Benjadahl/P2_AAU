@@ -1,5 +1,9 @@
-export default function mergeTraceroutes (trX, trY) {
-  let promiseListX = [];
+export default function mergeTraceroutes(trX, trY) {
+  getSubtree(trX, "69").then(r => {
+    console.log(JSON.stringify(r, null, 2));
+  });
+  
+  /*let promiseListX = [];
   let promiseListY = [];
   getIPRecursive(trX, Object.keys(trX)[0], promiseListX);
   getIPRecursive(trY, Object.keys(trY)[0], promiseListY);
@@ -13,26 +17,55 @@ export default function mergeTraceroutes (trX, trY) {
       x.forEach(xIp => {
         y.forEach(yIp => {
           if (xIp.ip === yIp.ip && match == null) {
-            match = xIp;
+            match = { ip: xIp.ip, idX: xIp.id, idY: yIp.id };
           }
         });
       });
 
-      match.obj["test"] = "test";
       console.log(match);
     });
-  });
+  });*/
 
-  return trX;
+  //return trX;
 }
 
-function getIPRecursive (obj, ip, promiseList) {
-  return new Promise ((resolve, reject) => {
+function getIPRecursive(obj, ip, promiseList) {
+  return new Promise((resolve, reject) => {
     Object.keys(obj).forEach(child => {
-      if (child !== "torbenClients") {
+      if (child !== "torbenClients" && child !== "id") {
         promiseList.push(getIPRecursive(obj[child], child, promiseList));
       }
-      resolve({ip: ip, obj: obj});
+      resolve({ ip: ip, id: obj.id });
     });
+  });
+}
+
+function insertSubtree(obj, id, subtree) {
+
+}
+
+function getSubtree(obj, id) {
+  return new Promise((resolve, reject) => {
+    if (obj.id === id) {
+      resolve(obj);
+    } else {
+      let childTraverses = [];
+
+      Object.keys(obj).forEach(child => {
+        if (child !== "torbenClients" && child !== "id") {
+          childTraverses.push(getSubtree(obj[child], id));
+        } else if (child === "torbenClients") {
+          resolve(null);
+        }
+      });
+
+      Promise.all(childTraverses).then(c => {
+        c.forEach(result => {
+          if (result != null) {
+            resolve(result);
+          }
+        });
+      });
+    }
   });
 }
