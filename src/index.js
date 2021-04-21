@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 const socket = io();
 let username;
 
-window.addEventListener("resize", () => {
+/*window.addEventListener("resize", () => {
   resizeAll();
 });
 
@@ -21,7 +21,7 @@ function resizeAll() {
 function reSize(ratio, id) {
   let height = window.innerHeight * ratio;
   document.getElementById(id).style.setProperty("max-height", height.toString() + "px;");
-}
+}*/
 
 /* Bind send message to enter key in input */
 document.getElementById("exampleDataList").addEventListener("keydown", e => {
