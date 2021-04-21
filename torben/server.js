@@ -1,5 +1,5 @@
 import getTorbenID from './server/getTorbenID.js';
-import sameNetwork from './server/sameNetwork.js';
+import findMask from './server/getBase.js';
 
 let connections = {};
 
@@ -11,5 +11,5 @@ export default function setupTorbenServer (io) {
     });
   });
 
-  console.log(sameNetwork('89.184.128.151', '89.174.148.152'));
+  console.log(findMask('128.184.128.151'));
 }
