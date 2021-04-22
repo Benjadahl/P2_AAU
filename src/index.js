@@ -5,23 +5,12 @@ import { io } from "socket.io-client";
 const socket = io();
 let username;
 
-/*window.addEventListener("resize", () => {
-  resizeAll();
-});
-
-function resizeAll() {
-  const chatRatio = 0.90;
-  const roomRatio = 0.97;
-
-  reSize(chatRatio, "sendt");
-  reSize(chatRatio, "members");
-  reSize(roomRatio, "chatGroup");
-}
-
-function reSize(ratio, id) {
+window.addEventListener("resize", () => {
+  let ratio;
+  ratio=1-((1/window.innerHeight)*75);
   let height = window.innerHeight * ratio;
-  document.getElementById(id).style.setProperty("max-height", height.toString() + "px;");
-}*/
+  document.getElementById("sendt").style.setProperty("max-height", height.toString() + "px");
+});
 
 /* Bind send message to enter key in input */
 document.getElementById("exampleDataList").addEventListener("keydown", e => {
@@ -75,6 +64,7 @@ function login(reqUsername) {
       printMsg(msg);
     });
   });
+  document.getElementById("sendt").style.setProperty("max-height", (window.heigth*0.885).toString() + "px");
 }
 
 document.getElementById("loginButton").addEventListener("click", () => {
