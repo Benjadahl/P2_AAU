@@ -16,12 +16,12 @@ peer.on('open', () => {
 /* Sends direct messages by opening connections to all
    peers in the relevant conversation. Connection is 
    cleaned up after sending. */
-function sendDirectMsg (msg, conversation) {
-  for (const member in conversation.members) {
-    const peerID = conversation.members[member];
+function sendDirectMsg (msg, Conversation) {
+  for (const member in Conversation.members) {
+    const peerID = Conversation.members[member];
     let conn = peer.connect(peerID);
     conn.on("open", () => {
-      conn.send({ID: convoID, msg: msg, timestamp: Date.now(), username: username});
+      conn.send({msg: msg, timestamp: Date.now(), username: username});
       setTimeout(() => {
         conn.close();
       }, 1000);
