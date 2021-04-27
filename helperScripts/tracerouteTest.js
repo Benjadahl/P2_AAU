@@ -1,12 +1,14 @@
+import TreeModel from 'tree-model';
 import Traceroute from 'nodejs-traceroute';
 import fs from 'fs';
 import getBase from '../torben/server/getBase.js';
 
-const tracer = new Traceroute();
-let hops = {};
-  
-let lastHop = hops;
+const tree = new TreeModel();
+let traceRoot;
+let lastHop;
 let lastBase;
+
+const tracer = new Traceroute();
 
 tracer.on('hop', hop => {
   const ip = hop.ip;
@@ -14,14 +16,18 @@ tracer.on('hop', hop => {
     console.log(ip);
     const base = getBase(ip);
     if (lastBase !== base) {
-      lastBase = base;
-      lastHop[base] = {};
-      lastHop = lastHop[base];
+      if (traceRoot != null) {
+        lastBase = base;
+        lastHop = lastHop.addChild(tree.parse({ip: base}));
+      } else {
+        traceRoot = tree.parse({ip: base});
+        lastHop = traceRoot;
+      }
     }
   }
 }).on('close', (code) => {
-  fs.writeFile('hops.json', JSON.stringify(hops), 'utf8', () => {
+  fs.writeFile('hops.json', JSON.stringify(traceRoot.model), 'utf8', () => {
     console.log("Wrote file");
   });
-}).trace("85.191.209.89");
+}).trace("87.61.202.221");
 

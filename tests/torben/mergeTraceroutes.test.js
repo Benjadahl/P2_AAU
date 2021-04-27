@@ -1,9 +1,12 @@
 import test from 'ava';
 import mergeTraceroutes from "../../torben/server/mergeTraceroutes.js";
 import fs from 'fs';
+import TreeModel from 'tree-model';
 
-const casperTrace = JSON.parse(fs.readFileSync('./traces/casper.json'));
-const lukasTrace = JSON.parse(fs.readFileSync('./traces/lukas.json'));
+const tree = new TreeModel();
+
+const casperTrace = tree.parse(JSON.parse(fs.readFileSync('./traces/casper.json')));
+const lukasTrace = tree.parse(JSON.parse(fs.readFileSync('./traces/lukas.json')));
 
 test('Merge two traces together', t => {
   console.log(JSON.stringify(mergeTraceroutes(casperTrace, lukasTrace), null, 2));
