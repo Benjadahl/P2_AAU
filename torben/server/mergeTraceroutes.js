@@ -9,7 +9,12 @@ export default function mergeTraceroutes (trX, trY) {
     });
   });
 
-  xMatch.addChild(yMatch.children[0]);
+  console.log(yMatch.hasChildren());
+  if (yMatch.hasChildren()) {
+    xMatch.addChild(yMatch.children[0]);
+  } else {
+    xMatch.model.torbenIDs = xMatch.model.torbenIDs.concat(yMatch.model.torbenIDs);
+  }
 
-  console.log(JSON.stringify(trX.model, null, 2));
+  return  trX;
 }
