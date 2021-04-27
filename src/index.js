@@ -1,4 +1,4 @@
-import { updatesMemberList } from "./UI.js";
+import { updatesMemberList, hideMemList } from "./UI.js";
 import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
 import Torben from "../torben/client.js";
@@ -11,6 +11,7 @@ let t = new Torben(socket);
 setTimeout(() => {
   console.log(t.id);
 }, 3000);
+hideMemList();
 
 window.addEventListener("resize", () => {
   let ratio;
