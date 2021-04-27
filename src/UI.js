@@ -24,5 +24,12 @@ function hideMemList(){
       document.getElementById("members").innerHTML ="";
     }
 }
+function funcy(){
+  hideMemList();
+  let ratio;
+  ratio=1-((1/window.innerHeight)*75);
+  let height = window.innerHeight * ratio;
+  document.getElementById("sendt").style.setProperty("max-height", height.toString() + "px");
+}
 
-export { clearMembersList, updatesMemberList, hideMemList};
+export { clearMembersList, updatesMemberList, funcy};
