@@ -4,6 +4,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 const http = createServer(app);
 const io = new Server(http, {});
+import torben from "./torben/server.js";
 
 let listOfMembers = [];
 let Conversation = {
@@ -40,6 +41,8 @@ class User {
 
 let users = {};
 
+torben(io);
+
 io.on('connection', socket => {
     socket.on('msg', data => {
         console.log('Message: ' + data);
@@ -67,5 +70,4 @@ io.on('connection', socket => {
 
 /* Serve the dist folder via Express */
 app.use(express.static('dist'));
-
-io.listen(app.listen(3000));
+io.listen(app.listen(3000, '0.0.0.0'));
