@@ -1,4 +1,4 @@
-import { updatesMemberList, funcy } from "./UI.js";
+import { updatesMemberList, resizer } from "./UI.js";
 import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
 import Torben from "../torben/client.js";
