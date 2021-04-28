@@ -24,7 +24,7 @@ function hideMemList(){
       document.getElementById("members").innerHTML ="";
     }
 }
-function funcy(){
+function resizer(){
   hideMemList();
   let ratio;
   ratio=1-((1/window.innerHeight)*75);
@@ -32,4 +32,4 @@ function funcy(){
   document.getElementById("sendt").style.setProperty("max-height", height.toString() + "px");
 }
 
-export { clearMembersList, updatesMemberList, funcy};
+export { clearMembersList, updatesMemberList, resizer};

@@ -12,10 +12,10 @@ setTimeout(() => {
   console.log(t.id);
 }, 3000);
 
-funcy()
+resizer()
 
 window.addEventListener("resize", () => {
-  funcy();
+  resizer();
 });
 
 /* Bind send message to enter key in input */
