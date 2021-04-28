@@ -11,6 +11,12 @@ traces.push(trace("85.203.245.236", "Jonas"));
 traces.push(trace("87.61.202.221", "Lukas"));
 traces.push(trace("77.213.123.14", "Casper"));
 
+traces.forEach(t => {
+  t.then(() => {
+    console.log("Finished trace");
+  });
+});
+
 Promise.all(traces).then(theTraces => {
   let trace = theTraces[0];
   
