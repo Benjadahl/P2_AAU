@@ -9,7 +9,6 @@ export default function mergeTraceroutes (trX, trY) {
     });
   });
 
-  console.log(yMatch.hasChildren());
   if (yMatch.hasChildren()) {
     xMatch.addChild(yMatch.children[0]);
   } else {
