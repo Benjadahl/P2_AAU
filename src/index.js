@@ -53,7 +53,7 @@ function printMsg(data) {
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
   newtxt.innerText = (data.username + ': ' + data.msg);
-  msgRow.className = "row";
+  msgRow.className = "row text-justify";
   if (username === data.username) {
     newtxt.innerText = data.msg;
     newtxt.className = "text-end";
