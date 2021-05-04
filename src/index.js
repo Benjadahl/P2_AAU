@@ -12,7 +12,7 @@ setTimeout(() => {
   console.log(t.id);
 }, 3000);
 
-resizer()
+resizer();
 
 window.addEventListener("resize", () => {
   resizer();

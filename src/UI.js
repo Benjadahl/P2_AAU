@@ -6,7 +6,7 @@ function clearMembersList() {
 }
 
 function updatesMemberList(usernames) { 
-  if(screen.width > 1199){
+ 
     clearMembersList();
     for (let i = 0; i < usernames.length; i++) {
       let newRow = membersList.insertRow(0);
@@ -16,16 +16,10 @@ function updatesMemberList(usernames) {
       console.log(usernames[i]);
       newCell2.innerHTML = "Online";
     }
-  }
+  
 }
-function hideMemList(){
-  console.log(screen.width)
-    if(screen.width <= 1199){
-      document.getElementById("members").innerHTML ="";
-    }
-}
+
 function resizer(){
-  hideMemList();
   let ratio;
   ratio=1-((1/window.innerHeight)*75);
   let height = window.innerHeight * ratio;
