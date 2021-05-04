@@ -22,10 +22,12 @@
   "homepage": "https://github.com/Benjadahl/P2_AAU#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "netmask": "^2.0.2",
     "nodejs-traceroute": "^1.2.0",
     "peerjs": "^1.3.2",
     "socket.io": "^4.0.0",
-    "socket.io-client": "^4.0.0"
+    "socket.io-client": "^4.0.0",
+    "tree-model": "^1.0.7"
   },
   "devDependencies": {
     "ava": "4.0.0-alpha.2",
