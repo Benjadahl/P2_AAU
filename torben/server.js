@@ -9,6 +9,4 @@ export default function setupTorbenServer (io) {
       const torbenID = getTorbenID(socket, peerID, connections);
     });
   });
-
-  console.log(findMask('128.184.128.151'));
 }
