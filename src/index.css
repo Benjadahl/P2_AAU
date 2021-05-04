@@ -22,3 +22,8 @@
     border-radius: 15px;
     display: flex;
 }
+#sendt{
+  max-height: 640px;
+  overflow-y:auto;
+  overflow-x:hidden;
+}

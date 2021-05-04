@@ -5,7 +5,8 @@ function clearMembersList() {
   membersList.innerHTML = "";
 }
 
-function updatesMemberList(usernames) { 
+function updatesMemberList(usernames) {
+
   clearMembersList();
   for (let i = 0; i < usernames.length; i++) {
     let newRow = membersList.insertRow(0);
@@ -18,4 +19,11 @@ function updatesMemberList(usernames) {
 
 }
 
-export { clearMembersList, updatesMemberList };
+function resizer() {
+  let ratio;
+  ratio = 1 - ((1 / window.innerHeight) * 75);
+  let height = window.innerHeight * ratio;
+  document.getElementById("sendt").style.setProperty("max-height", height.toString() + "px");
+}
+
+export { clearMembersList, updatesMemberList, resizer };

@@ -1,4 +1,4 @@
-import { updatesMemberList } from "./UI.js";
+import { updatesMemberList, resizer } from "./UI.js";
 import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
 import Torben from "../torben/client.js";
@@ -12,11 +12,10 @@ setTimeout(() => {
   console.log(t.id);
 }, 3000);
 
+resizer();
+
 window.addEventListener("resize", () => {
-  let ratio;
-  ratio=1-((1/window.innerHeight)*75);
-  let height = window.innerHeight * ratio;
-  document.getElementById("sendt").style.setProperty("max-height", height.toString() + "px");
+  resizer();
 });
 
 /* Bind send message to enter key in input */
@@ -39,8 +38,10 @@ socket.on('peer-msg', data => {
 });
 
 function sendFieldValue() {
-  sendMsg(document.getElementById("exampleDataList").value);
-  document.getElementById("exampleDataList").value = "";
+  if (document.getElementById("exampleDataList").value != "") {
+    sendMsg(document.getElementById("exampleDataList").value);
+    document.getElementById("exampleDataList").value = "";
+  }
 }
 
 function sendMsg(msg) {
@@ -52,7 +53,7 @@ function printMsg(data) {
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
   newtxt.innerText = (data.username + ': ' + data.msg);
-  msgRow.className = "row";
+  msgRow.className = "row text-justify";
   if (username === data.username) {
     newtxt.innerText = data.msg;
     newtxt.className = "text-end";
@@ -60,7 +61,8 @@ function printMsg(data) {
   document.getElementById("sendt").appendChild(msgRow);
   msgRow.appendChild(newtxt);
   /*makes the scroll bar go the the bottom, to show the new messages*/
-  document.getElementById('sendt').scrollTop+=28;
+  document.getElementById('sendt').scrollTop += 28;
+  document.getElementById('sendt').scrollTop = document.getElementById('sendt').scrollHeight;
 }
 
 function login(reqUsername) {
@@ -71,7 +73,7 @@ function login(reqUsername) {
       printMsg(msg);
     });
   });
-  document.getElementById("sendt").style.setProperty("max-height", (window.heigth*0.885).toString() + "px");
+  document.getElementById("sendt").style.setProperty("max-height", (window.heigth * 0.885).toString() + "px");
 }
 
 document.getElementById("loginButton").addEventListener("click", () => {
