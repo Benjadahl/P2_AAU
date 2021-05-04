@@ -12,7 +12,7 @@ const peerID1 = 'mockPeer1';
 const peerID2 = 'mockPeer2';
 
 test.before(t => {
-	let connections = {};
+  let connections = {};
   const torbenID1 = getTorbenID(socket, peerID1, connections);
   const torbenID2 = getTorbenID(socket, peerID2, connections);
   t.context.fetchedPeerID1 = getPeerID(socket, torbenID1, connections);
