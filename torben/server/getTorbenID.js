@@ -9,8 +9,7 @@ export default function getTorbenID(socket, peerID, connections) {
 
   connections[torbenID] = {
     peerID: peerID,
-    socket: socket,
-    hops: []
+    socket: socket
   }
 
   socket.emit('torbenID', torbenID);
