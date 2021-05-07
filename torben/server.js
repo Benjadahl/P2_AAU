@@ -1,4 +1,5 @@
 import getTorbenID from './server/getTorbenID.js';
+import getPeerID from './server/getPeerID.js';
 
 let connections = {};
 
@@ -7,6 +8,9 @@ export default function setupTorbenServer (io) {
   io.on('connection', socket => {
     socket.on('getTorbenID', peerID => {
       const torbenID = getTorbenID(socket, peerID, connections);
+    });
+    socket.on('getPeerID', torbenID => {
+      getPeerID(socket, torbenID, connections);
     });
   });
 }
