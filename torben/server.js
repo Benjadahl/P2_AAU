@@ -5,7 +5,8 @@ import mergeTraceroutes from './server/mergeTraceroutes.js';
 import trace from './server/trace.js';
 
 let connections = {};
-let trMap = new TreeModel();
+let tree = new TreeModel();
+let trMap = tree.parse({});
 
 export default function setupTorbenServer (io) {
   console.log('Set up TORBEN server');
@@ -16,6 +17,7 @@ export default function setupTorbenServer (io) {
       (async () => {
         const traceRoute = await trace(ip, torbenID);
         trMap = mergeTraceroutes(trMap, traceRoute);
+        io.emit("newMap", trMap.model);
       })();
     });
     socket.on('getPeerID', torbenID => {

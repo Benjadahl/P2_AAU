@@ -1,5 +1,9 @@
 import 'peerjs';
 import addRecieveHandler from './client/recieveMessage.js';
+import TreeModel from 'tree-model';
+
+let tree = new TreeModel();
+let trMap = tree.parse({});
 
 export default class Torben {
   constructor (socket) {
@@ -7,6 +11,10 @@ export default class Torben {
     peer.on('open', () => {
       socket.emit('getTorbenID', peer.id);
       socket.on('torbenID', id => this.id = id);
+    });
+
+    socket.on('newMap', map => {
+      trMap = tree.parse(map);
     });
   }
 
