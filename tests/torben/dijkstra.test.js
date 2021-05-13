@@ -10,12 +10,24 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const tree = new TreeModel();
 
-const testTree = tree.parse(JSON.parse(fs.readFileSync(path.resolve(__dirname, './traces/avaAndCasper.json'))));
+const testTree = tree.parse(JSON.parse(fs.readFileSync(path.resolve(__dirname, './traces/all.json'))));
 
 test('Run dijkstras for Ava', t => {
-  let result = dijsktra(testTree, "Ava");
-  let result2 = dijsktra(testTree, "Casper");
-  console.log(result);
-  console.log(result2);
-  t.snapshot(result);
+  t.snapshot(dijsktra(testTree, "Ava"));
+});
+
+test('Run dijkstras for Casper', t => {
+  t.snapshot(dijsktra(testTree, "Casper"));
+});
+
+test('Run dijkstras for Jonas', t => {
+  t.snapshot(dijsktra(testTree, "Jonas"));
+});
+
+test('Run dijkstras for Lukas', t => {
+  t.snapshot(dijsktra(testTree, "Lukas"));
+});
+
+test('Run dijkstras for Marcus', t => {
+  t.snapshot(dijsktra(testTree, "Marcus"));
 });
