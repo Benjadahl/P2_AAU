@@ -23,8 +23,6 @@ export default function getEmitPath (map, sender, recievers) {
   return new Promise ((resolve, reject) => {
     const wMap = weightMap(map);
   
-    //console.log(wMap[sender]);
-
     let promises = [];
     let paths = [];
   
@@ -36,8 +34,7 @@ export default function getEmitPath (map, sender, recievers) {
           console.log(wMap[sender][reciever]);
           console.log(recursion);
           let path = {};
-          path[sender] = {};
-          path[sender][reciever] = recursion.path;
+          path[reciever] = recursion.path;
 
           paths.push({
             weight: wMap[sender][reciever] + recursion.weight,
