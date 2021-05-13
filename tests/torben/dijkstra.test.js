@@ -13,5 +13,9 @@ const tree = new TreeModel();
 const testTree = tree.parse(JSON.parse(fs.readFileSync(path.resolve(__dirname, './traces/avaAndCasper.json'))));
 
 test('Run dijkstras for Ava', t => {
-  t.snapshot(dijsktra(testTree, "Ava"));
+  let result = dijsktra(testTree, "Ava");
+  let result2 = dijsktra(testTree, "Casper");
+  console.log(result);
+  console.log(result2);
+  t.snapshot(result);
 });
