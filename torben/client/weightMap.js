@@ -13,13 +13,9 @@ export default function weightMap (map) {
   map.all().forEach(node => {
     if (node.model.torbenIDs != null) {
       node.model.torbenIDs.forEach(ID => {
-        clients.push(ID);
+        wMap[ID] = dijkstra(map, ID);
       });
     }
-  });
-
-  clients.forEach(ID => {
-    wMap[ID] = dijkstra(map, ID);
   });
 
   return wMap;
