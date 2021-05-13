@@ -1,4 +1,4 @@
-export default function dijsktra (map, src) {
+export default function dijkstra (map, src) {
   const node1 = map.first(node => {
     if (node.model.torbenIDs != null) {
       return node.model.torbenIDs.includes(src);
