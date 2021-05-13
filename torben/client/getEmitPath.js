@@ -31,8 +31,6 @@ export default function getEmitPath (map, sender, recievers) {
         const newRecievers = recievers.filter(r => r !== reciever);
         const newSender = reciever;
         let recur = getEmitPath(map, newSender, newRecievers).then(recursion => {
-          console.log(wMap[sender][reciever]);
-          console.log(recursion);
           let path = {};
           path[reciever] = recursion.path;
 
@@ -45,8 +43,6 @@ export default function getEmitPath (map, sender, recievers) {
       });
   
       Promise.all(promises).then(() => {
-        console.log(paths);
-
         let minOption = null;
 
         for (let option of paths) {
