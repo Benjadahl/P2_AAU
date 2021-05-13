@@ -19,7 +19,7 @@ window.addEventListener("resize", () => {
 });
 
 /* Bind send message to enter key in input */
-document.getElementById("exampleDataList").addEventListener("keydown", e => {
+document.getElementById("inputField").addEventListener("keydown", e => {
   if (e.code === "Enter") {
     sendFieldValue();
     e.preventDefault();
@@ -37,9 +37,9 @@ socket.on('peer-msg', data => {
 });
 
 function sendFieldValue() {
-  if (document.getElementById("exampleDataList").value != "") {
-    sendMsg(document.getElementById("exampleDataList").value);
-    document.getElementById("exampleDataList").value = "";
+  if (document.getElementById("inputField").value != "") {
+    sendMsg(document.getElementById("inputField").value);
+    document.getElementById("inputField").value = "";
   }
 }
 
