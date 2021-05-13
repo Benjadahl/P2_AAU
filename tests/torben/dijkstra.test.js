@@ -12,6 +12,6 @@ const tree = new TreeModel();
 
 const testTree = tree.parse(JSON.parse(fs.readFileSync(path.resolve(__dirname, './traces/avaAndCasper.json'))));
 
-test('Merge two traces together', t => {
+test('Run dijkstras for Ava', t => {
   t.snapshot(dijsktra(testTree, "Ava"));
 });

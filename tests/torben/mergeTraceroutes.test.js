@@ -22,6 +22,5 @@ test('Merge two traces together', t => {
   map = mergeTraceroutes(map, jonasTrace);
   map = mergeTraceroutes(map, marcusTrace);*/
   let map = mergeTraceroutes(casperTrace, avaTrace);
-  console.log(JSON.stringify(map.model, null, 2));
   t.snapshot(map);
 });
