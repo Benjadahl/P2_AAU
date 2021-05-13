@@ -8,7 +8,6 @@ import dijkstra from './dijkstra.js';
 
 export default function weightMap (map) {
   let wMap = {};
-  let clients = [];
 
   map.all().forEach(node => {
     if (node.model.torbenIDs != null) {
