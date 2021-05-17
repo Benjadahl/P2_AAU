@@ -19,7 +19,7 @@ window.addEventListener("resize", () => {
 });
 
 /* Bind send message to enter key in input */
-document.getElementById("exampleDataList").addEventListener("keydown", e => {
+document.getElementById("inputField").addEventListener("keydown", e => {
   if (e.code === "Enter") {
     sendFieldValue();
     e.preventDefault();
@@ -31,16 +31,15 @@ document.getElementById("sendMsg").addEventListener("click", () => {
   sendFieldValue();
 });
 
-//i probably destroyed this, and the rest of the peer stuff
 socket.on('peer-msg', data => {
   printMsg(data);
   data.chatLog.forEach(msg => printMsg(msg));
 });
 
 function sendFieldValue() {
-  if (document.getElementById("exampleDataList").value != "") {
-    sendMsg(document.getElementById("exampleDataList").value);
-    document.getElementById("exampleDataList").value = "";
+  if (document.getElementById("inputField").value != "") {
+    sendMsg(document.getElementById("inputField").value);
+    document.getElementById("inputField").value = "";
   }
 }
 
@@ -60,7 +59,7 @@ function printMsg(data) {
   }
   document.getElementById("sendt").appendChild(msgRow);
   msgRow.appendChild(newtxt);
-  /*makes the scroll bar go the the bottom, to show the new messages*/
+  /* Makes the scroll bar go the the bottom, to show the new messages*/
   document.getElementById('sendt').scrollTop += 28;
   document.getElementById('sendt').scrollTop = document.getElementById('sendt').scrollHeight;
 }
@@ -81,7 +80,7 @@ document.getElementById("loginButton").addEventListener("click", () => {
   document.getElementById("Overlay").remove();
 });
 
-/*Updates the memberlist everytime a new person connects*/
+/* Updates the memberlist everytime a new person connects*/
 socket.on('login', listOfMembers => {
   updatesMemberList(listOfMembers);
 });
