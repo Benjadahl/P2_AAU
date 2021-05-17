@@ -8,8 +8,27 @@
 
 export default function arrayMutations(arrayIn) {
   const combinations = getCombinations(arrayIn);
+  const summingSubset = uniqueSummingSubsets(arrayIn.length);
 
+  let toReturn = [];
 
+  summingSubset.forEach(subset => {
+    let toAdd = [];
+
+    subset.forEach(number => {
+      //console.log(combinations[number])
+      toAdd.push(getMutations(toAdd, combinations[number]));
+    });
+
+    console.log(toAdd);
+    toReturn = toReturn.concat(toAdd);
+  });
+
+  console.log(toReturn);
+
+  return toReturn;
+  //console.log(combinations);
+  //console.log(summingSubset);
 }
 
 export function getCombinations(valuesArray) {
@@ -32,9 +51,24 @@ export function getCombinations(valuesArray) {
     }
   }
 
-  //console.log(combi);
-
   return combi;
+}
+
+export function getMutations (originalArrays, mutationArrays) {
+  let toReturn = [];
+
+  if (originalArrays.length > 0) {
+    originalArrays.forEach(o => {
+      mutationArrays.forEach(m => {
+        const newArray = [o].concat([m]);
+        toReturn.push(newArray);
+      });
+    });
+  } else {
+    toReturn = mutationArrays;
+  }
+
+  return toReturn;
 }
 
 export function uniqueSummingSubsets (target) {
