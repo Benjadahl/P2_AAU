@@ -74,7 +74,7 @@ export function uniqueSummingSubsets (target) {
   return toReturn;
 }
 
-export function getSummingSubsets(target) {
+function getSummingSubsets(target) {
   let set_arr = [];
 
   for (let i = target; i > 0; i--) {
