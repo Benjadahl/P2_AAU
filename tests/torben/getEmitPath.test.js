@@ -14,7 +14,7 @@ const testTree = tree.parse(JSON.parse(fs.readFileSync(path.resolve(__dirname, '
 
 test('GetEmitPath', t => {
   return getEmitPath(testTree, "Ava", ["Casper", "Jonas", "Lukas", "Marcus"]).then(res => {
-    console.log(JSON.stringify(res, null, 2));
+    //console.log(JSON.stringify(res, null, 2));
     t.snapshot(res);
   });
 });
