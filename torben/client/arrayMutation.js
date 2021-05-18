@@ -9,7 +9,6 @@
 export default function arrayMutations(arrayIn) {
   const combinations = getCombinations(arrayIn);
   const summingSubset = uniqueSummingSubsets(arrayIn.length);
-  //console.log(summingSubset);
 
   let toReturn = [];
 
@@ -17,25 +16,13 @@ export default function arrayMutations(arrayIn) {
     let toAdd = [];
 
     subset.forEach(number => {
-      //console.log(combinations[number])
-      console.log(number);
-      console.log(toAdd);
       toAdd = getMutations(toAdd, combinations[number]);
-      console.log("\n");
-      console.log(toAdd);
-      //console.log(getMutations(toAdd, combinations[number]));
     });
 
-    //console.log(toAdd);
-    //console.log(subset);
     toReturn = toReturn.concat(toAdd);
   });
 
-  console.log(toReturn);
-
   return toReturn;
-  //console.log(combinations);
-  //console.log(summingSubset);
 }
 
 export function getCombinations(valuesArray) {
@@ -64,23 +51,19 @@ export function getCombinations(valuesArray) {
 export function getMutations (originalArrays, mutationArrays) {
   let toReturn = [];
 
-  //console.log(originalArrays);
-  //console.log(mutationArrays);
-  //console.log("\n");
-
   if (originalArrays.length > 0) {
     originalArrays.forEach(o => {
       mutationArrays.forEach(m => {
-        const newArray = [o].concat([m]);
+        const newArray = o.concat([m]);
         toReturn.push(newArray);
       });
     });
   } else {
-    toReturn = mutationArrays;
+    mutationArrays.forEach(mutation => {
+      let i = toReturn.push([]);
+      toReturn[i - 1].push(mutation);
+    });
   }
-  
-  /*console.log("TEST");
-  console.log(toReturn);*/
 
   return toReturn;
 }
