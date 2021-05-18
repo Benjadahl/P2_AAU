@@ -24,7 +24,7 @@ test('arrayMutation 6', t => {
   t.snapshot(arrayMutation(["ID1", "ID2"]));
 });
 
-test('getMutations 6', t => {
+/*test('getMutations 6', t => {
   t.snapshot(getMutations(
   [
     [1],
@@ -50,4 +50,4 @@ test('getMutations empty original array', t => {
     [6]
   ]
   ));
-});
+});*/
