@@ -26,7 +26,7 @@ export default function trace (ip, torbenID) {
         }
       }
     }).on('close', (code) => {
-      lastHop.model.torbenID = torbenID;
+      lastHop.model.torbenIDs = [torbenID];
       resolve(traceRoot);
     }).trace(ip);
   });
