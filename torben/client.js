@@ -1,6 +1,8 @@
 import 'peerjs';
 import addRecieveHandler from './client/recieveMessage.js';
 import TreeModel from 'tree-model';
+import getClientsInTree from './client/getClientsInTree.js';
+import getEmitPath from './client/getEmitPath.js';
 
 let tree = new TreeModel();
 
@@ -36,7 +38,17 @@ export default class Torben {
     this.trMap = tree.parse(trMap);
   }
 
-  /*rttBetween (torbenID1, torbenID2) {
-    rttBetween(this.map, torbenID1, torbenID2);
-  }*/
+  sendMessage (msg, recievers = 'all') {
+    let toRecieve;
+
+    if (recievers === 'all') {
+      toRecieve = getClientsInTree(this.trMap);
+    } else if (Array.isArray(recievers)) {
+      toRecieve = recievers;
+    } else {
+      throw 'TORBEN - Failed to send message: Uknown reciever format';
+    }
+
+    const emitPath = getEmitPath(this.trMap, this.id, toRecieve);
+  }
 }
