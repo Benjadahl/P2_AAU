@@ -14,7 +14,10 @@ export default class Torben {
     const peer = new Peer();
     peer.on('open', () => {
       socket.emit('getTorbenID', peer.id);
-      socket.on('torbenID', id => this.id = id);
+      socket.on('torbenID', id => {
+        this.id = id;
+        console.log(`TORBEN - Connceted to Torben Server with ID: ${this.id}`);
+      })
     });
 
     socket.on('newMap', map => {
