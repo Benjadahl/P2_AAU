@@ -45,7 +45,7 @@ export default class Torben {
     let toRecieve;
 
     if (recievers === 'all') {
-      toRecieve = getClientsInTree(this.trMap);
+      toRecieve = getClientsInTree(this.trMap).filter(rID => rID !== this.id);
     } else if (Array.isArray(recievers)) {
       toRecieve = recievers;
     } else {
@@ -53,5 +53,6 @@ export default class Torben {
     }
 
     const emitPath = getEmitPath(this.trMap, this.id, toRecieve);
+    console.log(emitPath);
   }
 }

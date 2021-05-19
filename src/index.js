@@ -44,6 +44,7 @@ function sendFieldValue() {
 }
 
 function sendMsg(msg) {
+  t.sendMessage(msg, "all");
   socket.emit('msg', msg);
 }
 
