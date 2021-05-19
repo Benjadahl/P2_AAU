@@ -55,7 +55,7 @@ io.on('connection', socket => {
         //If user is not already defined
         if (users[data.username] == null) {
             users[data.username] = new User(data.username, data.peerID, socket);
-            Conversation.members.push(users[data.username]);//new
+            Conversation.members.push(users[data.username]);
             listOfMembers.push(data.username);
 
         } else {
