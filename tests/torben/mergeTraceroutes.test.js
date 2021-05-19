@@ -16,10 +16,11 @@ const avaTrace = tree.parse(JSON.parse(fs.readFileSync(path.resolve(__dirname, '
 const jonasTrace = tree.parse(JSON.parse(fs.readFileSync(path.resolve(__dirname, './traces/jonas.json'))));
 const marcusTrace = tree.parse(JSON.parse(fs.readFileSync(path.resolve(__dirname, './traces/marcus.json'))));
 
-test('Merge two traces together', t => {
+test('Merge five traces together', t => {
   let map = mergeTraceroutes(casperTrace, lukasTrace);
   map = mergeTraceroutes(map, avaTrace);
   map = mergeTraceroutes(map, jonasTrace);
   map = mergeTraceroutes(map, marcusTrace);
-  t.snapshot(map);
+  //console.log(JSON.stringify(map.model, null, 2));
+  t.snapshot(map.model);
 });

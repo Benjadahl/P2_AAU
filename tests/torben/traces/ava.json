@@ -3,21 +3,27 @@
   "children": [
     {
       "ip": "85.0.0.0",
+      "rtt": "3.796 ms",
       "children": [
         {
           "ip": "178.155.0.0",
+          "rtt": "4 ms",
           "children": [
             {
               "ip": "89.0.0.0",
+              "rtt": "5 ms",
               "children": [
                 {
                   "ip": "217.198.210.0",
+                  "rtt": "6 ms",
                   "children": [
                     {
                       "ip": "139.45.0.0",
+                      "rtt": "7 ms",
                       "children": [
                         {
                           "ip": "85.0.0.0",
+                          "rtt": "8.87 ms",
                           "torbenIDs": [
                             "Ava"
                           ]
