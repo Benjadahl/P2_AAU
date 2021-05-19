@@ -3,6 +3,7 @@ import addRecieveHandler from './client/recieveMessage.js';
 import TreeModel from 'tree-model';
 import getClientsInTree from './client/getClientsInTree.js';
 import getEmitPath from './client/getEmitPath.js';
+import handlePlan from './client/handlePlan.js';
 
 let tree = new TreeModel();
 
@@ -10,6 +11,7 @@ export default class Torben {
   constructor (socket) {
     this.socket = socket;
     this.trMap = tree.parse({});
+    this.knownIDs = {};
 
     const peer = new Peer();
     peer.on('open', () => {
@@ -19,6 +21,12 @@ export default class Torben {
         console.log(`TORBEN - Connceted to Torben Server with ID: ${this.id}`);
       })
     });
+
+    addRecieveHandler(peer, recieved => {
+      console.log(recieved);
+    });
+
+    this.peer = peer;
 
     socket.on('newMap', map => {
       this.loadMap(map);
@@ -53,6 +61,9 @@ export default class Torben {
     }
 
     const emitPath = getEmitPath(this.trMap, this.id, toRecieve);
-    console.log(emitPath);
+    emitPath.then(ePath => {
+      handlePlan(this.peer, ePath.path, this.knownIDs, this.socket);
+    });
+
   }
 }
