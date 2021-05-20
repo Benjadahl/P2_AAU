@@ -11,7 +11,6 @@ export default class Torben {
   constructor (socket) {
     this.socket = socket;
     this.trMap = tree.parse({});
-    this.mapsLoaded = 0;
     this.knownIDs = {};
     this.recieveEvents = [];
     this.loginEvents = [];
@@ -22,6 +21,7 @@ export default class Torben {
       socket.on('torbenID', id => {
         this.id = id;
         console.log(`TORBEN - Connceted to Torben Server with ID: ${this.id}`);
+        this.loginEvents.forEach(event => event());
       })
     });
 
@@ -59,13 +59,7 @@ export default class Torben {
   }
 
   loadMap (trMap) {
-    if (this.mapsLoaded === 0) {
-      //setTimeout(() => {
-        this.loginEvents.forEach(event => event());
-      //}, 10000);
-    }
     this.trMap = tree.parse(trMap);
-    this.mapsLoaded++;
   }
 
   getPeerID (torbenID) {

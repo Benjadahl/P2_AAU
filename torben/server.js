@@ -23,6 +23,7 @@ export default function setupTorbenServer (io) {
           trMap = traceRoute;
         }
         pushMap(io, trMap);
+        socket.emit('torbenID', torbenID);
       })();
     });
     socket.on('getPeerID', torbenID => {
