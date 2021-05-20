@@ -102,7 +102,9 @@ export default class Torben {
         conn.on("open", () => {
           conn.send(plan);
           conn.on("data", data => {
-            conn.close();
+            if (data === "ack") {
+              conn.close();
+            }
           });
         });
       });
