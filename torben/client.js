@@ -3,7 +3,6 @@ import addRecieveHandler from './client/recieveMessage.js';
 import TreeModel from 'tree-model';
 import getClientsInTree from './client/getClientsInTree.js';
 import getEmitPath from './client/getEmitPath.js';
-import handlePlan from './client/handlePlan.js';
 import getPeerID from './client/getPeerID.js';
 
 let tree = new TreeModel();
