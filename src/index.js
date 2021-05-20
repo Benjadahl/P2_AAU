@@ -11,6 +11,12 @@ t.addEventListener("recieveMsg", data => {
   printMsg(data);
 });
 
+let torbenLogin = new Promise ((resolve, reject) => {
+  t.addEventListener("login", () => {
+    resolve();
+  });
+});
+
 resizer();
 
 window.addEventListener("resize", () => {
@@ -65,19 +71,24 @@ function printMsg(data) {
 }
 
 function login(reqUsername) {
-  username = reqUsername;
-  socket.emit('userLogin', { username: username});
-  socket.on('chatLog', chatLog => {
-    chatLog.forEach(msg => {
-      printMsg(msg.msg);
+  torbenLogin.then(() => {
+    username = reqUsername;
+    socket.emit('userLogin', { username: username});
+    socket.on('chatLog', chatLog => {
+      chatLog.forEach(msg => {
+        printMsg(msg.msg);
+      });
     });
+    document.getElementById("sendt").style.setProperty("max-height", (window.heigth * 0.885).toString() + "px");
+    document.getElementById("Overlay").remove();
   });
-  document.getElementById("sendt").style.setProperty("max-height", (window.heigth * 0.885).toString() + "px");
 }
 
 document.getElementById("loginButton").addEventListener("click", () => {
+  document.getElementById("loginButtonText").style.display = "none";
+  document.getElementById("loginButton").disabled = true;
+  document.getElementById("spinner").style.display = "block";
   login(document.getElementById("username").value);
-  document.getElementById("Overlay").remove();
 });
 
 /* Updates the memberlist everytime a new person connects*/

@@ -11,8 +11,10 @@ export default class Torben {
   constructor (socket) {
     this.socket = socket;
     this.trMap = tree.parse({});
+    this.mapsLoaded = 0;
     this.knownIDs = {};
     this.recieveEvents = [];
+    this.loginEvents = [];
 
     const peer = new Peer();
     peer.on('open', () => {
@@ -45,6 +47,10 @@ export default class Torben {
       case 'recieveMsg':
         this.recieveEvents.push(callback);
         break;
+
+      case 'login':
+        this.loginEvents.push(callback);
+        break;
     
       default:
         throw 'TORBEN - Failed to register event handler: Unkown eventType';
@@ -53,7 +59,13 @@ export default class Torben {
   }
 
   loadMap (trMap) {
+    if (this.mapsLoaded === 0) {
+      //setTimeout(() => {
+        this.loginEvents.forEach(event => event());
+      //}, 10000);
+    }
     this.trMap = tree.parse(trMap);
+    this.mapsLoaded++;
   }
 
   getPeerID (torbenID) {
