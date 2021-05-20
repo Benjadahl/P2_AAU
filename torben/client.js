@@ -12,6 +12,7 @@ export default class Torben {
     this.socket = socket;
     this.trMap = tree.parse({});
     this.knownIDs = {};
+    this.recieveEvents = [];
 
     const peer = new Peer();
     peer.on('open', () => {
@@ -23,6 +24,8 @@ export default class Torben {
     });
 
     addRecieveHandler(peer, recievedPlan => {
+      this.recieveEvents.forEach(event => event(recievedPlan.msg));
+
       const recieverTorbenID = Object.keys(recievedPlan.path)[0];
       recievedPlan.path = recievedPlan.path[recieverTorbenID];
       this.handlePlan(recievedPlan);
@@ -35,10 +38,10 @@ export default class Torben {
     });
   }
 
-  registerEventHandler (eventType, callback) {
+  addEventListener (eventType, callback) {
     switch (eventType) {
       case 'recieveMsg':
-        addRecieveHandler(this.peer, callback);
+        this.recieveEvents.push(callback);
         break;
     
       default:
