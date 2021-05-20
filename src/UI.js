@@ -13,7 +13,6 @@ function updatesMemberList(usernames) {
     let newCell1 = newRow.insertCell(0);
     let newCell2 = newRow.insertCell(1);
     newCell1.innerHTML = usernames[i];
-    console.log(usernames[i]);
     newCell2.innerHTML = "Online";
   }
 

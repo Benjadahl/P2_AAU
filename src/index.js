@@ -8,8 +8,6 @@ let username;
 let t = new Torben(socket);
 
 t.addEventListener("recieveMsg", data => {
-  console.log("NEW MSG");
-  console.log(data);
   printMsg(data);
 });
 
@@ -51,7 +49,6 @@ function sendMsg(msg) {
 }
 
 function printMsg(data) {
-  console.log(' Sender: ' + data.username + ' Message: ' + data.msg);
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
   newtxt.innerText = (data.username + ': ' + data.msg);
