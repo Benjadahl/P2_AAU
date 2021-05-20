@@ -101,9 +101,9 @@ export default class Torben {
     
         conn.on("open", () => {
           conn.send(plan);
-          setTimeout(() => {
+          conn.on("data", data => {
             conn.close();
-          }, 1000);
+          });
         });
       });
     }

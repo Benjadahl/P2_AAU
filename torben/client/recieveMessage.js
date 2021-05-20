@@ -5,6 +5,7 @@ export default function addRecieveHandler (peerObject, callback) {
     peerObject.on('connection', conn => {
       conn.on('data', data => {
         callback(data);
+        conn.send('ack');
       });
     });
   });
