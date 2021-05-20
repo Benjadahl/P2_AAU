@@ -3,6 +3,7 @@ import getPeerID from './server/getPeerID.js';
 import TreeModel from 'tree-model';
 import mergeTraceroutes from './server/mergeTraceroutes.js';
 import trace from './server/trace.js';
+import removeClient from './server/removeClient.js';
 
 let connections = {};
 let tree = new TreeModel();
@@ -21,11 +22,26 @@ export default function setupTorbenServer (io) {
         } else {
           trMap = traceRoute;
         }
-        io.emit("newMap", trMap.model);
+        pushMap(io, trMap);
       })();
     });
     socket.on('getPeerID', torbenID => {
       getPeerID(socket, torbenID, connections);
     });
+    socket.on('disconnect', () => {
+      for (let torbenID of Object.keys(connections)) {
+        const connection = connections[torbenID];
+
+        if (connection.socket.id === socket.id) {
+          removeClient(trMap, torbenID);
+          pushMap(io, trMap);
+          break;
+        }
+      }
+    });
   });
+}
+
+function pushMap (io, map) {
+  io.emit("newMap", map.model);
 }

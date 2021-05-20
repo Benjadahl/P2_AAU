@@ -7,64 +7,29 @@ const io = new Server(http, {});
 import torben from "./torben/server.js";
 
 let listOfMembers = [];
-let Conversation = {
-    members: [],
-    chatLog: []
-};
+let chatLog = [];
 
-function sendMessage(msg, socket) {
+function logMsg(msg) {
     let toLog = { msg: msg, timestamp: Date.now() };
-    Conversation.members.forEach(member => {
-        if (member.socket.id == socket.id) {
-            toLog.username = member.username;
-        }
-    });
-
-    Conversation.chatLog.push(toLog);
-    Conversation.members.forEach(member => {
-        member.socket.emit('peer-msg', toLog);
-    });
+    chatLog.push(toLog);
 }
-
-class User {
-    constructor(username, peerID, socket) {
-        this.username = username;
-        this.peerID = peerID;
-        this.socket = socket;
-    }
-
-    setConnection(peerID, socket) {
-        this.peerID = peerID;
-        this.socket = socket;
-    }
-}
-
-let users = {};
 
 torben(io);
 
 io.on('connection', socket => {
-    socket.on('msg', data => {
-        console.log('Message: ' + data);
-        sendMessage(data, socket);
-    });
-
     /* Function is called when a new peer connects */
     socket.on('userLogin', data => {
-        socket.emit('chatLog', Conversation.chatLog);
-        //If user is not already defined
-        if (users[data.username] == null) {
-            users[data.username] = new User(data.username, data.peerID, socket);
-            Conversation.members.push(users[data.username]);
+        socket.emit('chatLog', chatLog);
+        //If username is not already taken
+        if (!listOfMembers.includes(data.username)) {
             listOfMembers.push(data.username);
-
-        } else {
-            users[data.username].setConnection(data.peerID, socket);
         }
         /*emits the usernames to all users so that they can be shown in the interface*/
-        Conversation.members.forEach(member => {
-            member.socket.emit('login', listOfMembers);
-        })
+        io.sockets.emit('login', listOfMembers);
+    });
+
+    socket.on('logMsg', msg => {
+        logMsg(msg);
     });
 });
 

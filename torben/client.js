@@ -34,6 +34,8 @@ export default class Torben {
     this.peer = peer;
 
     socket.on('newMap', map => {
+      console.log("NEWMAP");
+      console.log(map);
       this.loadMap(map);
     });
   }

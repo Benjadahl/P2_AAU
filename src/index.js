@@ -1,8 +1,6 @@
 import { updatesMemberList, resizer } from "./UI.js";
-import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
 import Torben from "../torben/client.js";
-
 
 const socket = io();
 let username;
@@ -49,15 +47,16 @@ function sendMsg(msg) {
 
   t.sendMessage(data, "all");
   printMsg(data, true);
+  socket.emit('logMsg', data);
 }
 
-function printMsg(data, msgFromSelf = false) {
+function printMsg(data) {
   console.log(' Sender: ' + data.username + ' Message: ' + data.msg);
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
   newtxt.innerText = (data.username + ': ' + data.msg);
   msgRow.className = "row text-justify";
-  if (msgFromSelf) {
+  if (data.username === username) {
     newtxt.innerText = data.msg;
     newtxt.className = "text-end";
   }
@@ -70,10 +69,10 @@ function printMsg(data, msgFromSelf = false) {
 
 function login(reqUsername) {
   username = reqUsername;
-  socket.emit('userLogin', { username: username, peerID: getPeerJSid() });
+  socket.emit('userLogin', { username: username});
   socket.on('chatLog', chatLog => {
     chatLog.forEach(msg => {
-      printMsg(msg);
+      printMsg(msg.msg);
     });
   });
   document.getElementById("sendt").style.setProperty("max-height", (window.heigth * 0.885).toString() + "px");
