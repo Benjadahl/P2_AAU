@@ -22,8 +22,10 @@ export default class Torben {
       })
     });
 
-    addRecieveHandler(peer, recieved => {
-      console.log(recieved);
+    addRecieveHandler(peer, recievedPlan => {
+      const recieverTorbenID = Object.keys(recievedPlan.path)[0];
+      recievedPlan.path = recievedPlan.path[recieverTorbenID];
+      handlePlan(peer, recievedPlan, this.knownIDs, this.socket);
     });
 
     this.peer = peer;
@@ -62,7 +64,11 @@ export default class Torben {
 
     const emitPath = getEmitPath(this.trMap, this.id, toRecieve);
     emitPath.then(ePath => {
-      handlePlan(this.peer, ePath.path, this.knownIDs, this.socket);
+      let plan = {
+        path: ePath.path,
+        msg: msg
+      };
+      handlePlan(this.peer, plan, this.knownIDs, this.socket);
     });
 
   }
