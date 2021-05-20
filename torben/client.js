@@ -82,6 +82,8 @@ export default class Torben {
 
     const emitPath = getEmitPath(this.trMap, this.id, toRecieve);
     emitPath.then(ePath => {
+      console.log("Sending plan: ");
+      console.log(ePath);
       let plan = {
         path: ePath.path,
         msg: msg
