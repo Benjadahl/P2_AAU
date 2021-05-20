@@ -4,6 +4,7 @@ import TreeModel from 'tree-model';
 import getClientsInTree from './client/getClientsInTree.js';
 import getEmitPath from './client/getEmitPath.js';
 import handlePlan from './client/handlePlan.js';
+import getPeerID from './client/getPeerID.js';
 
 let tree = new TreeModel();
 
@@ -25,7 +26,7 @@ export default class Torben {
     addRecieveHandler(peer, recievedPlan => {
       const recieverTorbenID = Object.keys(recievedPlan.path)[0];
       recievedPlan.path = recievedPlan.path[recieverTorbenID];
-      handlePlan(peer, recievedPlan, this.knownIDs, this.socket);
+      this.handlePlan(recievedPlan);
     });
 
     this.peer = peer;
@@ -51,6 +52,19 @@ export default class Torben {
     this.trMap = tree.parse(trMap);
   }
 
+  getPeerID (torbenID) {
+    return new Promise ((resolve, reject) => {
+      if (this.knownIDs[torbenID] != null) {
+        resolve(this.knownIDs[torbenID]);
+      } else {
+        getPeerID(this.socket, torbenID).then(peerID => {
+          this.knownIDs[torbenID] = peerID;
+          resolve(peerID);
+        });
+      }
+    });
+  }
+
   sendMessage (msg, recievers = 'all') {
     let toRecieve;
 
@@ -68,8 +82,24 @@ export default class Torben {
         path: ePath.path,
         msg: msg
       };
-      handlePlan(this.peer, plan, this.knownIDs, this.socket);
+      this.handlePlan(plan);
     });
-
   }
+
+  handlePlan (plan) {
+    console.log(plan);
+    const recieverTorbenID = Object.keys(plan.path)[0];
+    if (recieverTorbenID != null) {
+      this.getPeerID(recieverTorbenID).then(peerID => {
+        const conn = this.peer.connect(peerID);
+    
+        conn.on("open", () => {
+          conn.send(plan);
+          setTimeout(() => {
+            conn.close();
+          }, 1000);
+        });
+      });
+    }
+  };
 }
