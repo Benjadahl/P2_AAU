@@ -1,16 +1,21 @@
 import { updatesMemberList, resizer } from "./UI.js";
-import { sendDirectMsg, getPeerJSid } from "./p2p.js";
 import { io } from "socket.io-client";
 import Torben from "../torben/client.js";
-
 
 const socket = io();
 let username;
 
 let t = new Torben(socket);
-setTimeout(() => {
-  console.log(t.id);
-}, 3000);
+
+t.addEventListener("recieveMsg", data => {
+  printMsg(data);
+});
+
+let torbenLogin = new Promise ((resolve, reject) => {
+  t.addEventListener("login", () => {
+    resolve();
+  });
+});
 
 resizer();
 
@@ -31,11 +36,6 @@ document.getElementById("sendMsg").addEventListener("click", () => {
   sendFieldValue();
 });
 
-socket.on('peer-msg', data => {
-  printMsg(data);
-  data.chatLog.forEach(msg => printMsg(msg));
-});
-
 function sendFieldValue() {
   if (document.getElementById("inputField").value != "") {
     sendMsg(document.getElementById("inputField").value);
@@ -44,16 +44,22 @@ function sendFieldValue() {
 }
 
 function sendMsg(msg) {
-  socket.emit('msg', msg);
+  const data = {
+    msg: msg,
+    username: username
+  };
+
+  t.sendMessage(data, "all");
+  printMsg(data, true);
+  socket.emit('logMsg', data);
 }
 
 function printMsg(data) {
-  console.log(' Sender: ' + data.username + ' Message: ' + data.msg);
   let newtxt = document.createElement("H6");
   let msgRow = document.createElement('div');
   newtxt.innerText = (data.username + ': ' + data.msg);
   msgRow.className = "row text-justify";
-  if (username === data.username) {
+  if (data.username === username) {
     newtxt.innerText = data.msg;
     newtxt.className = "text-end";
   }
@@ -65,19 +71,24 @@ function printMsg(data) {
 }
 
 function login(reqUsername) {
-  username = reqUsername;
-  socket.emit('userLogin', { username: username, peerID: getPeerJSid() });
-  socket.on('chatLog', chatLog => {
-    chatLog.forEach(msg => {
-      printMsg(msg);
+  torbenLogin.then(() => {
+    username = reqUsername;
+    socket.emit('userLogin', { username: username});
+    socket.on('chatLog', chatLog => {
+      chatLog.forEach(msg => {
+        printMsg(msg.msg);
+      });
     });
+    document.getElementById("sendt").style.setProperty("max-height", (window.heigth * 0.885).toString() + "px");
+    document.getElementById("Overlay").remove();
   });
-  document.getElementById("sendt").style.setProperty("max-height", (window.heigth * 0.885).toString() + "px");
 }
 
 document.getElementById("loginButton").addEventListener("click", () => {
+  document.getElementById("loginButtonText").style.display = "none";
+  document.getElementById("loginButton").disabled = true;
+  document.getElementById("spinner").style.display = "block";
   login(document.getElementById("username").value);
-  document.getElementById("Overlay").remove();
 });
 
 /* Updates the memberlist everytime a new person connects*/

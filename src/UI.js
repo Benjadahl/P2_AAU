@@ -5,16 +5,18 @@ function clearMembersList() {
   membersList.innerHTML = "";
 }
 
-function updatesMemberList(usernames) {
+function updatesMemberList(users) {
+  console.log(users);
 
   clearMembersList();
-  for (let i = 0; i < usernames.length; i++) {
+  for (let i = 0; i < users.length; i++) {
+    let curUser = users[i];
+
     let newRow = membersList.insertRow(0);
     let newCell1 = newRow.insertCell(0);
     let newCell2 = newRow.insertCell(1);
-    newCell1.innerHTML = usernames[i];
-    console.log(usernames[i]);
-    newCell2.innerHTML = "Online";
+    newCell1.innerHTML = curUser.username;
+    newCell2.innerHTML = curUser.online ? "Online" : "Offline";
   }
 
 }

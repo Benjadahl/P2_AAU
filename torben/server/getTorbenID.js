@@ -12,6 +12,5 @@ export default function getTorbenID(socket, peerID, connections) {
     socket: socket
   }
 
-  socket.emit('torbenID', torbenID);
   return torbenID;
 }

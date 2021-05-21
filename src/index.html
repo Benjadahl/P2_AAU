@@ -20,7 +20,10 @@
       <form id="loginField">
         <label for="">Username</label>
         <input type="username" class="form-control" id="username" placeholder="Enter username">
-        <button type="submit" class="btn btn-primary" id="loginButton">Login</button>
+        <button type="button" class="btn btn-primary" id="loginButton">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinner"></span>
+          <span id="loginButtonText">Login</span>
+        </button>
       </form>
     </div>
   </div>
