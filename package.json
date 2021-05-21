@@ -42,5 +42,11 @@
     "webpack-cli": "^4.6.0",
     "webpack-merge": "^5.7.3"
   },
-  "type": "module"
+  "type": "module",
+  "nyc": {
+    "all": true,
+    "include": [
+      "torben/**/*.js"
+    ]
+  }
 }
