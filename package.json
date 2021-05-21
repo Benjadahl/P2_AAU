@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ava",
+    "test": "nyc ava",
     "build:prod": "webpack --config webpack.prod.js",
     "build:dev": "webpack --config webpack.dev.js",
     "build:torben:prod": "webpack --config webpack.torben.prod.js",
@@ -34,6 +34,7 @@
     "copy-webpack-plugin": "^8.1.0",
     "css-loader": "^5.2.1",
     "jest": "^26.6.3",
+    "nyc": "^15.1.0",
     "style-loader": "^2.0.0",
     "webpack": "^5.28.0",
     "webpack-cli": "^4.6.0",

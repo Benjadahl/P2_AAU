@@ -4,3 +4,5 @@ src/TORBEN-client.js
 src/TORBEN-server.js
 **.map
 hops.json
+.nyc_output
+coverage
