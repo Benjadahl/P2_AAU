@@ -15,7 +15,6 @@ export default function setupTorbenServer (io) {
   console.log('Set up TORBEN server');
   io.on('connection', socket => {
     socket.on('getTorbenID', signalData => {
-      console.log(signalData);
       const torbenID = getTorbenID(socket, JSON.parse(signalData), connections);
       const ip = socket.request.connection.remoteAddress;
       (async () => {
@@ -25,21 +24,7 @@ export default function setupTorbenServer (io) {
         } else {
           trMap = traceRoute;
         }
-        const chain = await getChain(trMap);
-        for (let i = 0; i < chain.length; i++) {
-          const ID = chain[i];
-          console.log(ID);
-
-          if (i != chain.length - 1) {
-            //If we are not the last element, handle right connection
-            const sender = connections[chain[i]];
-            const reciever = connections[chain[i + 1]];
-            reciever.socket.emit("newLeftConn", JSON.stringify(sender.signalData));
-            reciever.socket.on("signal", signal => {
-              sender.socket.emit("newRightConn", JSON.stringify(signal));
-            });
-          }
-        }
+        chainClients(trMap);
 
         //pushMap(io, trMap);
         socket.emit('torbenID', torbenID);
@@ -54,10 +39,47 @@ export default function setupTorbenServer (io) {
 
         if (connection.socket.id === socket.id) {
           removeClient(trMap, torbenID);
-          pushMap(io, trMap);
+          chainClients(trMap);
+          //pushMap(io, trMap);
           break;
         }
       }
+    });
+  });
+}
+
+function chainClients (trMap) {
+  getChain(trMap).then(chain => {
+    console.log(chain);
+    for (let i = 0; i < chain.length; i++) {
+      const ID = chain[i];
+
+      if (i != chain.length - 1) {
+        //If we are not the last element, handle right connection
+        console.log("i: " + i.toString());
+        const sender = connections[chain[i]];
+        const reciever = connections[chain[i + 1]];
+        bindClients(sender, reciever);
+        /*reciever.socket.emit("newLeftConn", JSON.stringify(sender.signalData));
+        reciever.socket.on("signal", signal => {
+          sender.socket.emit("newRightConn", JSON.stringify(signal));
+        });*/
+      }
+    }
+  });
+}
+
+function bindClients (rightConn, leftConn) {
+  console.log("1");
+  rightConn.socket.emit("newRightConn");
+  rightConn.socket.on("rightConnRes", function sig (signal) {
+    console.log("2");
+    leftConn.socket.emit("newLeftConn", signal);
+    leftConn.socket.on("leftConnRes", function (signal) {
+      rightConn.socket.emit("confirmRightConn", signal);
+      console.log("FINISHED BIND");
+      rightConn.socket.off("rightConnRes", sig);
+      leftConn.socket.off("leftConnRes", sig);
     });
   });
 }
