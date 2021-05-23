@@ -16,7 +16,7 @@ export default function setupTorbenServer (io) {
   io.on('connection', socket => {
     socket.on('getTorbenID', signalData => {
       console.log(signalData);
-      const torbenID = getTorbenID(socket, signalData, connections);
+      const torbenID = getTorbenID(socket, JSON.parse(signalData), connections);
       const ip = socket.request.connection.remoteAddress;
       (async () => {
         const traceRoute = await trace(ip, torbenID);
@@ -34,9 +34,9 @@ export default function setupTorbenServer (io) {
             //If we are not the last element, handle right connection
             const sender = connections[chain[i]];
             const reciever = connections[chain[i + 1]];
-            reciever.socket.emit("newLeftConn", sender.signalData);
+            reciever.socket.emit("newLeftConn", JSON.stringify(sender.signalData));
             reciever.socket.on("signal", signal => {
-              sender.socket.emit("newRightConn", signal);
+              sender.socket.emit("newRightConn", JSON.stringify(signal));
             });
           }
         }

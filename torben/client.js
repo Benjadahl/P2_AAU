@@ -18,7 +18,7 @@ export default class Torben {
     this.rightPeer = new Peer({ initiator: true, trickle: false });
     
     this.rightPeer.on('signal', data => {
-      socket.emit('getTorbenID', data);
+      socket.emit('getTorbenID', JSON.stringify(data));
       socket.on('torbenID', id => {
         this.id = id;
         console.log(`TORBEN - Connected to Torben Server with ID: ${this.id}`);
@@ -53,9 +53,9 @@ export default class Torben {
     socket.on('newLeftConn', signalData => {
       this.leftPeer = new Peer({ trickle: false });
       console.log(signalData);
-      this.leftPeer.signal(signalData);
+      this.leftPeer.signal(JSON.parse(signalData));
       this.leftPeer.on('signal', data => {
-        socket.emit("signal", data);
+        socket.emit("signal", JSON.stringify(data));
       });
       this.leftPeer.on('data', data => {
         const recieved = JSON.parse(data);
@@ -66,7 +66,7 @@ export default class Torben {
 
     socket.on('newRightConn', signalData => {
       console.log(signalData);
-      this.rightPeer.signal(signalData);
+      this.rightPeer.signal(JSON.parse(signalData));
       this.rightPeer.on('data', data => {
         const recieved = JSON.parse(data);
         console.log(recieved);
