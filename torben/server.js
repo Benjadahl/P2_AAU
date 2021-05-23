@@ -4,6 +4,8 @@ import TreeModel from 'tree-model';
 import mergeTraceroutes from './server/mergeTraceroutes.js';
 import trace from './server/trace.js';
 import removeClient from './server/removeClient.js';
+import getChain from './server/getChain.js';
+
 
 let connections = {};
 let tree = new TreeModel();
@@ -22,6 +24,14 @@ export default function setupTorbenServer (io) {
         } else {
           trMap = traceRoute;
         }
+        const chain = await getChain(trmap);
+        for (let i = 0; i < chain.length; i++) {
+          const ID = chain[i];
+          console.log(ID);
+
+          connections[ID].socket.emit("newChain");
+        }
+
         pushMap(io, trMap);
         socket.emit('torbenID', torbenID);
       })();

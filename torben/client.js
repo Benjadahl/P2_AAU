@@ -40,6 +40,10 @@ export default class Torben {
       console.log(map);
       this.loadMap(map);
     });
+
+    socket.on('newChain', () => {
+      console.log("NEW CHAIN");
+    });
   }
 
   addEventListener (eventType, callback) {
