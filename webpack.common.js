@@ -2,6 +2,7 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import CopyPlugin from 'copy-webpack-plugin';
+import webpack from 'webpack';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -38,5 +39,6 @@ export default {
         "src/index.html"
       ],
     }),
+    new webpack.ProvidePlugin({ process: 'process/browser' })
   ]
 };

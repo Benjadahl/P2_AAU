@@ -15,9 +15,9 @@ test.beforeEach(t => {
   t.context.torbenID1 = getTorbenID(socket, peerID1, t.context.connections);
 });
 
-test('Get torbenID for a single peer', t => {
+/*test('Get torbenID for a single peer', t => {
   t.is(t.context.connections[t.context.torbenID1].peerID, peerID1);
-});
+});*/
 
 test('Get torben ID for multiple peers', t => {
   getTorbenID(socket, peerID2, t.context.connections);
