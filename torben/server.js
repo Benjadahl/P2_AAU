@@ -75,7 +75,7 @@ function bindClients (rightConn, leftConn) {
   rightConn.socket.on("rightConnRes", function sig (signal) {
     console.log("2");
     leftConn.socket.emit("newLeftConn", signal);
-    leftConn.socket.on("leftConnRes", function (signal) {
+    leftConn.socket.on("leftConnRes", function sig (signal) {
       rightConn.socket.emit("confirmRightConn", signal);
       console.log("FINISHED BIND");
       rightConn.socket.off("rightConnRes", sig);
