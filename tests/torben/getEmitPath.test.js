@@ -12,9 +12,21 @@ const tree = new TreeModel();
 
 const testTree = tree.parse(JSON.parse(fs.readFileSync(path.resolve(__dirname, './traces/all.json'))));
 
-test('GetEmitPath', t => {
+test('GetEmitPath Ava', t => {
   return getEmitPath(testTree, "Ava", ["Casper", "Jonas", "Lukas", "Marcus"]).then(res => {
-    //console.log(JSON.stringify(res, null, 2));
+    t.snapshot(res);
+  });
+});
+
+test('GetEmitPath Jonas', t => {
+  return getEmitPath(testTree, "Jonas", ["Casper", "Ava", "Lukas", "Marcus"]).then(res => {
+    t.snapshot(res);
+  });
+});
+
+
+test('GetEmitPath Casper', t => {
+  return getEmitPath(testTree, "Casper", ["Ava", "Jonas", "Lukas", "Marcus"]).then(res => {
     t.snapshot(res);
   });
 });
