@@ -16,7 +16,6 @@ export default class Torben {
     this.loginEvents = [];
 
     this.rightPeer = new Peer({ initiator: true, trickle: false });
-    this.leftPeer = new Peer({ trickle: false });
     
     this.rightPeer.on('signal', data => {
       socket.emit('getTorbenID', data);
@@ -52,24 +51,27 @@ export default class Torben {
     });
 
     socket.on('newLeftConn', signalData => {
+      this.leftPeer = new Peer({ trickle: false });
       console.log(signalData);
       this.leftPeer.signal(signalData);
       this.leftPeer.on('signal', data => {
         socket.emit("signal", data);
       });
       this.leftPeer.on('data', data => {
-        // got a data channel message
-        console.log('got a message from peer1: ' + data)
+        const recieved = JSON.parse(data);
+        console.log(recieved);
+        this.recieveEvents.forEach(event => event(recieved));
       });
     });
 
     socket.on('newRightConn', signalData => {
       console.log(signalData);
       this.rightPeer.signal(signalData);
-      this.rightPeer.on('connect', () => {
-        // wait for 'connect' event before using the data channel
-        this.rightPeer.send('hey peer2, how is it going?')
-      })
+      this.rightPeer.on('data', data => {
+        const recieved = JSON.parse(data);
+        console.log(recieved);
+        this.recieveEvents.forEach(event => event(recieved));
+      });
     });
   }
 
@@ -106,27 +108,19 @@ export default class Torben {
     });
   }
 
-  sendMessage (msg, recievers = 'all') {
-    let toRecieve;
+  sendMessage (msg) {
+    const toSend = JSON.stringify(msg);
+    console.log(this.rightPeer);
+    try {
+      this.rightPeer.send(toSend);
+    } catch (e) {
 
-    if (recievers === 'all') {
-      toRecieve = getClientsInTree(this.trMap).filter(rID => rID !== this.id);
-    } else if (Array.isArray(recievers)) {
-      toRecieve = recievers;
-    } else {
-      throw 'TORBEN - Failed to send message: Uknown reciever format';
     }
+    try {
+      this.leftPeer.send(toSend);
+    } catch (e) {
 
-    const emitPath = getEmitPath(this.trMap, this.id, toRecieve);
-    emitPath.then(ePath => {
-      console.log("Sending plan: ");
-      console.log(ePath);
-      let plan = {
-        path: ePath.path,
-        msg: msg
-      };
-      //this.handlePlan(plan);
-    });
+    }
   }
 
   /*handlePlan (plan) {
