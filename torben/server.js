@@ -41,7 +41,7 @@ export default function setupTorbenServer (io) {
           }
         }
 
-        pushMap(io, trMap);
+        //pushMap(io, trMap);
         socket.emit('torbenID', torbenID);
       })();
     });
