@@ -48,11 +48,7 @@ export default class Torben {
         socket.emit("leftConnRes", JSON.stringify(data));
       });
       this.leftPeer.on('data', data => {
-        try {
-          this.rightPeer.send(data);
-        } catch (e) {
-    
-        }
+        this.sendRight(data);
         const recieved = JSON.parse(data);
         console.log(recieved);
         this.recieveEvents.forEach(event => event(recieved));
@@ -63,16 +59,28 @@ export default class Torben {
       console.log(signalData);
       this.rightPeer.signal(JSON.parse(signalData));
       this.rightPeer.on('data', data => {
-        try {
-          this.leftPeer.send(data);
-        } catch (e) {
-    
-        }
+        this.sendLeft(data);
         const recieved = JSON.parse(data);
         console.log(recieved);
         this.recieveEvents.forEach(event => event(recieved));
       });
     });
+  }
+
+  sendRight (toSend) {
+    try {
+      this.rightPeer.send(toSend);
+    } catch (e) {
+
+    }
+  }
+
+  sendLeft (toSend) {
+    try {
+      this.leftPeer.send(toSend);
+    } catch (e) {
+
+    }
   }
 
   addEventListener (eventType, callback) {
@@ -111,15 +119,7 @@ export default class Torben {
   sendMessage (msg) {
     const toSend = JSON.stringify(msg);
     console.log(this.rightPeer);
-    try {
-      this.rightPeer.send(toSend);
-    } catch (e) {
-
-    }
-    try {
-      this.leftPeer.send(toSend);
-    } catch (e) {
-
-    }
+    this.sendRight(toSend);
+    this.sendLeft(toSend);
   }
 }
