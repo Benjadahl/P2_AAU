@@ -1,5 +1,5 @@
 import test from 'ava';
-import getEmitPath from '../../torben/client/getEmitPath.js';
+import getEmitPath from '../../torben/server/getEmitPath.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

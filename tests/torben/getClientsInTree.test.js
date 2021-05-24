@@ -1,5 +1,5 @@
 import test from 'ava';
-import getClientsInTree from '../../torben/client/getClientsInTree.js';
+import getClientsInTree from '../../torben/server/getClientsInTree.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
