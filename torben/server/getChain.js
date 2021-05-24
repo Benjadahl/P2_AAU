@@ -1,5 +1,5 @@
-import getClientsInTree from "../client/getClientsInTree.js";
-import getEmitPath from "../client/getEmitPath.js";
+import getClientsInTree from "./getClientsInTree.js";
+import getEmitPath from "./getEmitPath.js";
 import pathToArray from "./pathToArray.js";
 
 export default function getChain (map) {

@@ -1,5 +1,4 @@
 import getTorbenID from './server/getTorbenID.js';
-import getPeerID from './server/getPeerID.js';
 import TreeModel from 'tree-model';
 import mergeTraceroutes from './server/mergeTraceroutes.js';
 import trace from './server/trace.js';
@@ -29,9 +28,7 @@ export default function setupTorbenServer (io) {
         socket.emit('torbenID', torbenID);
       })();
     });
-    socket.on('getPeerID', torbenID => {
-      getPeerID(socket, torbenID, connections);
-    });
+
     socket.on('disconnect', () => {
       for (let torbenID of Object.keys(connections)) {
         const connection = connections[torbenID];
