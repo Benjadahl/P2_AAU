@@ -26,25 +26,6 @@ export default class Torben {
       });
     });
 
-    /*peer.on('open', () => {
-      socket.emit('getTorbenID', peer.id);
-      socket.on('torbenID', id => {
-        this.id = id;
-        console.log(`TORBEN - Connceted to Torben Server with ID: ${this.id}`);
-        this.loginEvents.forEach(event => event());
-      })
-    });*/
-
-    /*addRecieveHandler(peer, recievedPlan => {
-      this.recieveEvents.forEach(event => event(recievedPlan.msg));
-
-      const recieverTorbenID = Object.keys(recievedPlan.path)[0];
-      recievedPlan.path = recievedPlan.path[recieverTorbenID];
-      this.handlePlan(recievedPlan);
-    });*/
-
-    //this.peer = peer;
-
     socket.on('newMap', map => {
       console.log("NEWMAP");
       console.log(map);
@@ -141,23 +122,4 @@ export default class Torben {
 
     }
   }
-
-  /*handlePlan (plan) {
-    console.log(plan);
-    const recieverTorbenID = Object.keys(plan.path)[0];
-    if (recieverTorbenID != null) {
-      this.getPeerID(recieverTorbenID).then(peerID => {
-        const conn = this.peer.connect(peerID);
-    
-        conn.on("open", () => {
-          conn.send(plan);
-          conn.on("data", data => {
-            if (data === "ack") {
-              conn.close();
-            }
-          });
-        });
-      });
-    }
-  };*/
 }
