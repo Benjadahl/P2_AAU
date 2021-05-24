@@ -46,29 +46,18 @@ export default function setupTorbenServer (io) {
 function chainClients (trMap) {
   getChain(trMap).then(chain => {
     console.log(chain);
-    for (let i = 0; i < chain.length; i++) {
+    for (let i = 0; i < chain.length - 1; i++) {
       const ID = chain[i];
-
-      if (i != chain.length - 1) {
-        //If we are not the last element, handle right connection
-        console.log("i: " + i.toString());
-        const sender = connections[chain[i]];
-        const reciever = connections[chain[i + 1]];
-        bindClients(sender, reciever);
-        /*reciever.socket.emit("newLeftConn", JSON.stringify(sender.signalData));
-        reciever.socket.on("signal", signal => {
-          sender.socket.emit("newRightConn", JSON.stringify(signal));
-        });*/
-      }
+      const sender = connections[chain[i]];
+      const reciever = connections[chain[i + 1]];
+      bindClients(sender, reciever);
     }
   });
 }
 
 function bindClients (rightConn, leftConn) {
-  console.log("1");
   rightConn.socket.emit("newRightConn");
   rightConn.socket.on("rightConnRes", function sig (signal) {
-    console.log("2");
     leftConn.socket.emit("newLeftConn", signal);
     rightConn.socket.off("rightConnRes", sig);
     leftConn.socket.on("leftConnRes", function sig (signal) {
