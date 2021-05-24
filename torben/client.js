@@ -32,27 +32,21 @@ export default class Torben {
 
     socket.on('newLeftConn', signalData => {
       this.leftPeer = new Peer({ trickle: false });
-      console.log(signalData);
       this.leftPeer.signal(JSON.parse(signalData));
       this.leftPeer.on('signal', data => {
         socket.emit("leftConnRes", JSON.stringify(data));
       });
       this.leftPeer.on('data', data => {
         this.sendRight(data);
-        const recieved = JSON.parse(data);
-        console.log(recieved);
-        this.recieveEvents.forEach(event => event(recieved));
+        this.recieveMessage(data);
       });
     });
 
     socket.on('confirmRightConn', signalData => {
-      console.log(signalData);
       this.rightPeer.signal(JSON.parse(signalData));
       this.rightPeer.on('data', data => {
         this.sendLeft(data);
-        const recieved = JSON.parse(data);
-        console.log(recieved);
-        this.recieveEvents.forEach(event => event(recieved));
+        this.recieveMessage(data);
       });
     });
   }
@@ -94,5 +88,10 @@ export default class Torben {
     console.log(this.rightPeer);
     this.sendRight(toSend);
     this.sendLeft(toSend);
+  }
+
+  recieveMessage (data) {
+    const recieved = JSON.parse(data);
+    this.recieveEvents.forEach(event => event(recieved));
   }
 }
