@@ -1,9 +1,5 @@
 import Peer from 'simple-peer';
-import addRecieveHandler from './client/recieveMessage.js';
 import TreeModel from 'tree-model';
-import getClientsInTree from './client/getClientsInTree.js';
-import getEmitPath from './client/getEmitPath.js';
-import getPeerID from './client/getPeerID.js';
 
 let tree = new TreeModel();
 
@@ -24,12 +20,6 @@ export default class Torben {
         console.log(`TORBEN - Connected to Torben Server with ID: ${this.id}`);
         this.loginEvents.forEach(event => event());
       });
-    });
-
-    socket.on('newMap', map => {
-      console.log("NEWMAP");
-      console.log(map);
-      this.loadMap(map);
     });
 
     socket.on('newRightConn', () => {
@@ -97,23 +87,6 @@ export default class Torben {
         throw 'TORBEN - Failed to register event handler: Unkown eventType';
         break;
     }
-  }
-
-  loadMap (trMap) {
-    this.trMap = tree.parse(trMap);
-  }
-
-  getPeerID (torbenID) {
-    return new Promise ((resolve, reject) => {
-      if (this.knownIDs[torbenID] != null) {
-        resolve(this.knownIDs[torbenID]);
-      } else {
-        getPeerID(this.socket, torbenID).then(peerID => {
-          this.knownIDs[torbenID] = peerID;
-          resolve(peerID);
-        });
-      }
-    });
   }
 
   sendMessage (msg) {

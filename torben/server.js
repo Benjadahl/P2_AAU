@@ -26,7 +26,6 @@ export default function setupTorbenServer (io) {
         }
         chainClients(trMap);
 
-        //pushMap(io, trMap);
         socket.emit('torbenID', torbenID);
       })();
     });
@@ -40,7 +39,6 @@ export default function setupTorbenServer (io) {
         if (connection.socket.id === socket.id) {
           removeClient(trMap, torbenID);
           chainClients(trMap);
-          //pushMap(io, trMap);
           break;
         }
       }
@@ -82,8 +80,4 @@ function bindClients (rightConn, leftConn) {
       leftConn.socket.off("leftConnRes", sig);
     });
   });
-}
-
-function pushMap (io, map) {
-  io.emit("newMap", map.model);
 }
