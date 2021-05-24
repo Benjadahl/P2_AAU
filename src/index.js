@@ -85,10 +85,15 @@ function login(reqUsername) {
 }
 
 document.getElementById("loginButton").addEventListener("click", () => {
-  document.getElementById("loginButtonText").style.display = "none";
-  document.getElementById("loginButton").disabled = true;
-  document.getElementById("spinner").style.display = "block";
-  login(document.getElementById("username").value);
+  const reqUsername = document.getElementById("username").value;
+  if (reqUsername !== "") {
+    document.getElementById("loginButtonText").style.display = "none";
+    document.getElementById("loginButton").disabled = true;
+    document.getElementById("spinner").style.display = "block";
+    login(reqUsername);
+  } else {
+    alert("Please enter a username");
+  }
 });
 
 /* Updates the memberlist everytime a new person connects*/
