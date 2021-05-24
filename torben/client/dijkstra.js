@@ -1,11 +1,19 @@
+import TreeModel from 'tree-model';
+
+let tree = new TreeModel();
+
+
 export default function dijkstra (map, src) {
-  const node1 = map.first(node => {
+  const deepCopy = JSON.parse(JSON.stringify(map.model));
+  let duplicate = tree.parse(deepCopy);
+
+  const node1 = duplicate.first(node => {
     if (node.model.torbenIDs != null) {
       return node.model.torbenIDs.includes(src);
     }
   });
 
-  let Q = map.all();
+  let Q = duplicate.all();
   
   Q.forEach(node => {
     node.model.previous = null;
@@ -30,7 +38,7 @@ export default function dijkstra (map, src) {
 
   let toReturn = {};
 
-  map.all().forEach(node => {
+  duplicate.all().forEach(node => {
     if (node.model.torbenIDs != null) {
       node.model.torbenIDs.forEach(ID => {
         toReturn[ID] = node.model.dist;
