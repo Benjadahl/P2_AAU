@@ -1,5 +1,5 @@
 import test from 'ava';
-import dijkstra from '../../torben/client/dijkstra.js';
+import dijkstra from '../../torben/server/dijkstra.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

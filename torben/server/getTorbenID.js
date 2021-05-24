@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-export default function getTorbenID(socket, peerID, connections) {
+export default function getTorbenID(socket, signalData, connections) {
   let torbenID;
 
   do {
@@ -8,7 +8,7 @@ export default function getTorbenID(socket, peerID, connections) {
   } while (connections[torbenID] != undefined);
 
   connections[torbenID] = {
-    peerID: peerID,
+    signalData: signalData,
     socket: socket
   }
 

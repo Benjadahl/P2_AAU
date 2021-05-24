@@ -1,5 +1,5 @@
 import test from 'ava';
-import getClientsInTree from '../../torben/server/getClientsInTree.js';
+import getChain from '../../torben/server/getChain.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -12,6 +12,8 @@ const tree = new TreeModel();
 
 const testTree = tree.parse(JSON.parse(fs.readFileSync(path.resolve(__dirname, './traces/all.json'))));
 
-test('Run getClientsInTree with 5 clients', t => {
-  t.snapshot(getClientsInTree(testTree));
+test('getChain', t => {
+  return getChain(testTree).then(res => {
+    t.snapshot(res);
+  });
 });

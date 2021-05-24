@@ -1,9 +1,5 @@
-import 'peerjs';
-import addRecieveHandler from './client/recieveMessage.js';
+import Peer from 'simple-peer';
 import TreeModel from 'tree-model';
-import getClientsInTree from './client/getClientsInTree.js';
-import getEmitPath from './client/getEmitPath.js';
-import getPeerID from './client/getPeerID.js';
 
 let tree = new TreeModel();
 
@@ -15,31 +11,60 @@ export default class Torben {
     this.recieveEvents = [];
     this.loginEvents = [];
 
-    const peer = new Peer();
-    peer.on('open', () => {
-      socket.emit('getTorbenID', peer.id);
+    this.rightPeer = new Peer({ initiator: true, trickle: false });
+      
+    this.rightPeer.on('signal', data => {
+      socket.emit('getTorbenID', JSON.stringify(data));
       socket.on('torbenID', id => {
         this.id = id;
-        console.log(`TORBEN - Connceted to Torben Server with ID: ${this.id}`);
+        console.log(`TORBEN - Connected to Torben Server with ID: ${this.id}`);
         this.loginEvents.forEach(event => event());
-      })
+      });
     });
 
-    addRecieveHandler(peer, recievedPlan => {
-      this.recieveEvents.forEach(event => event(recievedPlan.msg));
-
-      const recieverTorbenID = Object.keys(recievedPlan.path)[0];
-      recievedPlan.path = recievedPlan.path[recieverTorbenID];
-      this.handlePlan(recievedPlan);
+    socket.on('newRightConn', () => {
+      this.rightPeer = new Peer({ initiator: true, trickle: false });
+        
+      this.rightPeer.on('signal', data => {
+        socket.emit("rightConnRes", JSON.stringify(data));
+      });
     });
 
-    this.peer = peer;
-
-    socket.on('newMap', map => {
-      console.log("NEWMAP");
-      console.log(map);
-      this.loadMap(map);
+    socket.on('newLeftConn', signalData => {
+      this.leftPeer = new Peer({ trickle: false });
+      this.leftPeer.signal(JSON.parse(signalData));
+      this.leftPeer.on('signal', data => {
+        socket.emit("leftConnRes", JSON.stringify(data));
+      });
+      this.leftPeer.on('data', data => {
+        this.sendRight(data);
+        this.recieveMessage(data);
+      });
     });
+
+    socket.on('confirmRightConn', signalData => {
+      this.rightPeer.signal(JSON.parse(signalData));
+      this.rightPeer.on('data', data => {
+        this.sendLeft(data);
+        this.recieveMessage(data);
+      });
+    });
+  }
+
+  sendRight (toSend) {
+    try {
+      this.rightPeer.send(toSend);
+    } catch (e) {
+
+    }
+  }
+
+  sendLeft (toSend) {
+    try {
+      this.leftPeer.send(toSend);
+    } catch (e) {
+
+    }
   }
 
   addEventListener (eventType, callback) {
@@ -58,62 +83,15 @@ export default class Torben {
     }
   }
 
-  loadMap (trMap) {
-    this.trMap = tree.parse(trMap);
+  sendMessage (msg) {
+    const toSend = JSON.stringify(msg);
+    console.log(this.rightPeer);
+    this.sendRight(toSend);
+    this.sendLeft(toSend);
   }
 
-  getPeerID (torbenID) {
-    return new Promise ((resolve, reject) => {
-      if (this.knownIDs[torbenID] != null) {
-        resolve(this.knownIDs[torbenID]);
-      } else {
-        getPeerID(this.socket, torbenID).then(peerID => {
-          this.knownIDs[torbenID] = peerID;
-          resolve(peerID);
-        });
-      }
-    });
+  recieveMessage (data) {
+    const recieved = JSON.parse(data);
+    this.recieveEvents.forEach(event => event(recieved));
   }
-
-  sendMessage (msg, recievers = 'all') {
-    let toRecieve;
-
-    if (recievers === 'all') {
-      toRecieve = getClientsInTree(this.trMap).filter(rID => rID !== this.id);
-    } else if (Array.isArray(recievers)) {
-      toRecieve = recievers;
-    } else {
-      throw 'TORBEN - Failed to send message: Uknown reciever format';
-    }
-
-    const emitPath = getEmitPath(this.trMap, this.id, toRecieve);
-    emitPath.then(ePath => {
-      console.log("Sending plan: ");
-      console.log(ePath);
-      let plan = {
-        path: ePath.path,
-        msg: msg
-      };
-      this.handlePlan(plan);
-    });
-  }
-
-  handlePlan (plan) {
-    console.log(plan);
-    const recieverTorbenID = Object.keys(plan.path)[0];
-    if (recieverTorbenID != null) {
-      this.getPeerID(recieverTorbenID).then(peerID => {
-        const conn = this.peer.connect(peerID);
-    
-        conn.on("open", () => {
-          conn.send(plan);
-          conn.on("data", data => {
-            if (data === "ack") {
-              conn.close();
-            }
-          });
-        });
-      });
-    }
-  };
 }

@@ -1,5 +1,5 @@
 import test from 'ava';
-import weightMap from '../../torben/client/weightMap.js';
+import weightMap from '../../torben/server/weightMap.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

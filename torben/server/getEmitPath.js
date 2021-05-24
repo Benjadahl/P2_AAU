@@ -51,6 +51,8 @@ export default function getEmitPath (map, sender, recievers) {
           }
         }
 
+        minOption.sender = sender;
+
         resolve(minOption);
       });
     } else {
