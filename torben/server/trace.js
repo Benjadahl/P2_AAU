@@ -17,8 +17,8 @@ export default function trace (ip, torbenID) {
         const base = getBase(ip);
         if (lastBase !== base) {
           if (traceRoot != null) {
+            lastHop = lastHop.addChild(tree.parse({ip: base, rtt: hop.rtt1 - lastHop.rtt}));
             lastBase = base;
-            lastHop = lastHop.addChild(tree.parse({ip: base, rtt: hop.rtt1}));
           } else {
             traceRoot = tree.parse({ip: base});
             lastHop = traceRoot;
