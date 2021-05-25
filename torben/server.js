@@ -23,6 +23,7 @@ export default function setupTorbenServer (io) {
         } else {
           trMap = traceRoute;
         }
+        console.log(JSON.stringify(trMap.mode, null, 2));
         chainClients(trMap);
 
         socket.emit('torbenID', torbenID);
