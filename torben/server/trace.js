@@ -8,6 +8,7 @@ export default function trace (ip, torbenID) {
     let traceRoot;
     let lastHop;
     let lastBase;
+    let accumulatedRtt = 0;
   
     const tracer = new Traceroute();
   
@@ -17,7 +18,8 @@ export default function trace (ip, torbenID) {
         const base = getBase(ip);
         if (lastBase !== base) {
           if (traceRoot != null) {
-            lastHop = lastHop.addChild(tree.parse({ip: base, rtt: hop.rtt1 - lastHop.rtt}));
+            lastHop = lastHop.addChild(tree.parse({ip: base, rtt: hop.rtt1 - accumulatedRtt}));
+            accumulatedRtt = hop.rtt1;
             lastBase = base;
           } else {
             traceRoot = tree.parse({ip: base});
